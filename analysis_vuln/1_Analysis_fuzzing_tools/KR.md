@@ -109,23 +109,19 @@ Usage: melkor <ELF metadata to fuzz><ELF file template>[-n num -l likelihood -q]
 
 
     실행 후 실행 결과인 report가 ‘/orcs_test/에 저장된 것을 확인할 수 있다.
-
+    
     ![1544976322484](images/1544976322484.png)
 
 
 
     하이라이트 쳐 둔 부분을 열어보면 아래와 같이 fuzzing한 결과를 알 수 있다.
-
+    
     ![1544976337221](images/1544976337221.png)
 
 
 ## 2. AFL(American Fuzzy Lop)
 
 타킷 파일을 컴파일을 통해 퍼징을 하여 분석하는 프로그램, 코드를 필요로 함
-
-#### 사용법
-
-1. 
 
 #### 실습
 
@@ -180,5 +176,67 @@ sudo make install
    ```
 
    ![1544979072852](images/1544979072852.png)
+
+
+
+## 3. Radamsa
+
+퍼징 테스팅 도구, 설치와 사용이 간단
+
+#### 설치
+
+1. 내려받기 & 설치
+
+   ``` bash
+   git clone https://gitlab.com/akihe/radamsa
+   make
+   sudo make install # optional, you can also just grab bin/radamsa
+   ```
+
+2. 테스트
+
+   ``` bash
+   radamsa --help
+   ```
+
+   ![1544982202086](images/1544982202086.png)
+
+#### 실습
+
+- 간단한 문자열 퍼징
+
+  ``` bash
+  echo "aaa" | radamsa
+  ```
+
+
+
+  ![1544982257416](images/1544982257416.png)
+
+
+
+  ``` bash
+  echo "Fuzztron 2000" | radamsa --seed 4
+  ```
+
+  시드도 설정이 가능함
+
+  ![1544982278404](images/1544982278404.png)
+
+- 유닉스 유틸리티 bc(계산기)에 퍼징
+
+  ``` bash
+  echo "100 * (1 + (2 / 3))" | radamsa -n 10000 | bc
+  ```
+
+  - 실행결과
+
+    - 행걸린 경우
+
+      ![1544982418180](images/1544982418180.png)
+
+    - 비정상 종료
+
+      ![1544982429472](images/1544982429472.png)
 
 
