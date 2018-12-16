@@ -1,5 +1,5 @@
 # rabbitmq
-This project Rabbitmq vulnerability analysis project.
+This team project is Rabbitmq vulnerability analysis project.
 
 ```
   .d88888b.  888888b.    .d88888b.  888888b.   
@@ -11,6 +11,7 @@ This project Rabbitmq vulnerability analysis project.
  Y88b.Y8b88P 888   d88P Y88b.Y8b88P 888   d88P 
   "Y888888"  8888888P"   "Y888888"  8888888P"  
         Y8b                    Y8b             
+```
 
 - Purpose
     - Analysis RabbitMQ
