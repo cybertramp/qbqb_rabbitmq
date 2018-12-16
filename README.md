@@ -17,4 +17,3 @@ This team project is Rabbitmq vulnerability analysis project.
     - Analysis RabbitMQ
     - Analysis Rabbitmq vulnerability
     - Developing programs that complement vulnerabilities
-

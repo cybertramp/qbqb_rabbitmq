@@ -1,4 +1,4 @@
-# RabbitMQ guide in KR
+# RabbitMQ manual in KR
 
 ## 1. RabbitMQ 설치
 
