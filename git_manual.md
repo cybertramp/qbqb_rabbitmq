@@ -1,4 +1,5 @@
 # git manual 
+## 1. Command
 - 최초 설정
 ```
 git config --global user.name "로그인아이디"
@@ -44,3 +45,7 @@ git remote add origin <자신의 repo 위치 git@....>
 ```
 git push -u origin <브런치>
 ```
+
+## 2. branch
+브런치는 생성하면 다음과 같은 구조가 된다.
+origin - master - 브런치한것
