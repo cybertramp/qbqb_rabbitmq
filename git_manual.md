@@ -46,6 +46,10 @@ git remote add origin <자신의 repo 위치 git@....>
 git push -u origin <브런치>
 ```
 
+- git remote branch 삭제
+```
+git push origin --delete <브런치 명>
+```
 ## 2. branch
 브런치는 생성하면 다음과 같은 구조가 된다.
 origin - master - 브런치한것
