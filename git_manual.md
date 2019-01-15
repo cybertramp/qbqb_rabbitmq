@@ -21,6 +21,7 @@ git checkout -b <브런치 명>
 git branch
 ```
 - 당겨오기
+```
 git pull <git@.....>
 ```
 
