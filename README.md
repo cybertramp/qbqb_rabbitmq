@@ -1,5 +1,6 @@
 # rabbitmq
 This team project is Rabbitmq vulnerability analysis project.
+Target version: RabbitMQ 3.6.10, Erlang 20.2.2
 
 ```
   .d88888b.  888888b.    .d88888b.  888888b.   
