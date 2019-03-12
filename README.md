@@ -18,4 +18,4 @@ Target version: RabbitMQ 3.6.10, Erlang 20.2.2
 - Purpose
     - Analysis RabbitMQ
     - Analysis Rabbitmq vulnerability
-    - Developing programs that complement vulnerabilities
+    - Developing exploit programs
