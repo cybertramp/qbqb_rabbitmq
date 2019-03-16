@@ -130,7 +130,8 @@
 
      - management UI 접속
        - 해당 VM 내의 브라우저를 통해 아래 사이트 접속
-       - 
+
+         http://localhost:15672
 
      - virtual host 설정
 
@@ -263,6 +264,8 @@
      ```
 
      또한 브라우저로 management Web UI를 로그인 해두고 켜둬야 한다.
+
+     - http://localhost:15672
 
   - producer
 
