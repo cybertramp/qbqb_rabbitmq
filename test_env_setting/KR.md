@@ -97,7 +97,7 @@
      vi test.sh
      
        #! /bin/sh
-       while:
+       while :
        do
          TIME=`date`
          MSG="[$TIME] A client send to B client"
@@ -162,6 +162,9 @@
        - 라우팅 키 '#'은 모든 요청에 대한 응답
        - 즉, 모든 요청이 q1 큐로 들어가게 되는것
 
+
+
+
 - Consumer 세팅
 
   1. 해당 VM을 켭니다.
@@ -189,6 +192,10 @@
 
 ### 설정
 
+- 먼저 VM 네트워크를 host-only로 변경합니다.
+
+  (기존 VM의 네트워크 설정은 bridge로 되어있습니다. 이를 host-only로 변경합니다.)
+
 - 호스트네임 설정
 
   **호스트 명은 VM 별로 각각 producer, server, consumer로 지정 해주면된다.**
@@ -211,7 +218,6 @@
   10.0.0.1		producer
   10.0.0.2		server
   10.0.0.3		consumer
-  
   ~~~
 
   ![5](images/5.png)
@@ -222,7 +228,7 @@
 
   **IP는 VM 별로 각각 10.0.0.1/24, 10.0.0.2/24, 10.0.0.3/24로 지정 해주면된다.**
 
-  ~~~yaml
+  ~~~basha
   sudo -i
   service network-manager stop
   ~~~
@@ -233,16 +239,19 @@
   		ethernets:
   				ens33:
   					addresses: [IP/24]
-  					dhcp: no		# 반드시 no로 해야 static으로 됩니다.
+  					dhcp4: no		# 반드시 no로 해야 static으로 됩니다.
   		version: 2
   ~~~
 
   ~~~ bash
   netplan apply
+  service network-manager restart
   ip addr			# 	설정된 ip 확인
   ~~~
 
   네트워크 매니저 GUI인 작업 표시줄의 연결 아이콘을 눌러 netplan-ens33 활성화 해준다.
+
+  ![6](images/6.png)
 
   VM이 2개 이상 설정되면 꼭 아래 처럼 ping으로 확인 해주고 다음 VM의 네트워크를 설정해야한다.
 
@@ -291,7 +300,7 @@
     토픽을 q1으로 설정했으므로 지정해준다.
 
     ~~~ bash
-    mosquitto_sub -d -t q1
+    mosquitto_sub -h 10.0.0.2 -p 1883 -d -t q1 -u test -P yana6728
     ~~~
 
 
