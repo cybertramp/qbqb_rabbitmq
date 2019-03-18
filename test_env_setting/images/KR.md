@@ -76,14 +76,6 @@
      sudo make
      radamsa		## 제대로 설치가 되었는지 확인
      
-     # ==============
-     # 만약 에러 발생시
-     ## radamsa 폴더에서
-     rm radamsa.c
-     sudo make
-     sudo make install
-     # ==============
-     
      pip install Twisted
      git clone https://github.com/F-Secure/mqtt_fuzz.git
      cd mqtt_fuzz
