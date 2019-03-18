@@ -157,8 +157,9 @@
 
        ![3](images/3.png)
 
-       - 라우팅 키 '#'은 모든 요청에 대한 응답
+       - virtual_host1 - amq.topic에서 설정
        - Bindings에서 To를 q1으로 설정
+       - 라우팅 키 '#'은 모든 요청에 대한 응답
        - 즉, 모든 요청이 q1 큐로 들어가게 되는것
 
 - Consumer 세팅
