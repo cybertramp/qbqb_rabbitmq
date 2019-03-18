@@ -83,6 +83,12 @@
      sudo make
      sudo make install
      # ==============
+     # 그래도 안된다면
+     ## 재부팅을 한후
+     rm radamsa.c
+     sudo make OFLAGS=-O1
+     sudo make install
+     # ==============
      
      pip install Twisted
      git clone https://github.com/F-Secure/mqtt_fuzz.git
