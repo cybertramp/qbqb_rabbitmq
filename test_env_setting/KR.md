@@ -98,7 +98,7 @@
 
   4. mqtt 메시지 테스트를 하기 위한 스크립트 생성
 
-      ~~~ bash
+     ~~~ bash
      cd ~
      vi test.sh
      
@@ -113,6 +113,14 @@
          sleep 1
        done
      ~~~
+
+  5. 파일 실행 권한 부여
+
+     ``` bash
+     sudo chmod -R 755 test.sh
+     ```
+
+  
 
 - Server 세팅
 
