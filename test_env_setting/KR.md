@@ -73,22 +73,9 @@
      ~~~bash
      git clone https://gitlab.com/akihe/radamsa.git
      cd radamsa
-     sudo make
-     radamsa		## 제대로 설치가 되었는지 확인
-     
-     # ==============
-     # 만약 에러 발생시
-     ## radamsa 폴더에서
-     rm radamsa.c
-     sudo make
-     sudo make install
-     # ==============
-     # 그래도 안된다면
-     ## 재부팅을 한후
-     rm radamsa.c
      sudo make OFLAGS=-O1
      sudo make install
-     # ==============
+     radamsa		## 제대로 설치가 되었는지 확인
      
      pip install Twisted
      git clone https://github.com/F-Secure/mqtt_fuzz.git
@@ -322,3 +309,35 @@
 ​	consumer가 mqtt 수신을 한다면 테스트 환경 구축이 끝난것이다.
 
 ​	mqtt_fuzz는 producer에서 test.sh 대신에 실행시켜 주면된다.
+
+- 네트워크 재설정
+
+  만약 인터넷이 갑자기 필요한 경우 아래와 같이 적용하면 된다.
+
+  1. 먼저 VM 네트워크 설정에서 브릿지로 변경한다.
+
+  2. 아래와 같이 수행한다.
+
+     ``` bash
+     sudo service network-manager stop
+     sudo vi /etc/netplan/02-init.yaml
+     
+     # 해당 문서에 들어가 모두 주석처리한다. yaml 형식에서 주석은 '#'이다.
+     #network:
+     #		ethernets:
+     #				ens33:
+     #					addresses: [IP/24]
+     #					dhcp4: no
+     #		version: 2
+     ```
+
+  3. netplan을 적용하고 network-manager를 시작한다.
+
+     ``` bash
+     sudo netplan apply
+     sudo service network-manager start
+     ```
+
+  4. GUI에서 변경된 인터페이스를 눌러 활성화 한다.
+
+  
