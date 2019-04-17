@@ -109,7 +109,8 @@
     ``` bash
     git clone https://gitlab.com/akihe/radamsa.git
     cd radamsa
-    sudo make
+    sudo make OFLAGS=-O1
+    sudo make install
     radamsa		# check radamsa installation
     ```
 
