@@ -567,12 +567,16 @@ mory_high_watermark_paging_ratio</u> 구성을 기본 값인 0.5에서 수정해
 |Number of messages|Message body size|Message type|Producers|Consumers|
 |---|---|---|---|---|
 |1,000,000|1,000bytes|persistent|1|0|
+
+
 &nbsp;위의 메시지를 처리한 후 기본 및 지연 큐의 RAM 사용률<br>
 
 |Queue mode|Queue process memory|Messages in memory|Memory used by messages|Node memory|
 |---|---|---|---|---|
 |<u>default</u>|257MB|386,307|368MB|734MB|
 |<u>lazy</u>|159KB|0|0|117MB|
+
+
 &nbsp;두 큐 모두 1,000,000개의 메시지를 유지하고 1.2GB의 디스크 공간을 사용한 것을 확인할 수 있습니다.<br>
 - **런타임에 큐 모드 전환(Switching Queue Mode at Runtime)**<br>
 &nbsp;<u>default</u> 큐를 <u>lazy</u> 큐로 변환할 때 큐에서 메시지를 디스크로 이동해야 할 때와 같은 성능 영향을 받게 됩니다.<br>
@@ -599,6 +603,8 @@ mory_high_watermark_paging_ratio</u> 구성을 기본 값인 0.5에서 수정해
 |...|...|
 |79|4,000|
 |80|5,000|
+
+
 &nbsp;<u>queue_index_embed_msgs_below</u> 값 아래의 처음 20개 메시지만 노드 시작 시 메모리로 로드됩니다. 이 시나리오에서 메시지는 21KB 의 시스템 메모리를 사용하고 큐 프로세스는 다른 32KB의 시스템 메모리를 사용합니다. 큐 프로세스가 시작을 완료하는데 필요한 전체 시스템 메모리는 53KB입니다.
 
 # Firehose(Message Tracing)
