@@ -612,8 +612,8 @@ mory_high_watermark_paging_ratio</u> 구성을 기본 값인 0.5에서 수정해
 2.Firehose가 사용하는 큐를 정리합니다.<br>
 &nbsp;Firehose 상태는 지속되지 않으며 서버 시작 시 기본 값은 off가 됩니다.<br><br>
 - **Firehose 알림 형식**<br>
-&nbsp; Firehose는 주제 교환에 메시지를 게시하는 <u>amq.rabbitmq.trace</u>와
- - 브로커를 입력하는 메시지의 경우 <u>"publish.exchangename"</u> 또는 브로커를 나가는 메시지의 경우 어느 한쪽의 라우팅 키 <u>"delivery.queuename"</u>
+&nbsp; Firehose는 주제 교환에 메시지를 게시하는 <u>amq.rabbitmq.trace</u>와<br>
+ - 브로커를 입력하는 메시지의 경우 <u>"publish.exchangename"</u> 또는 브로커를 나가는 메시지의 경우 <u>"delivery.queuename"</u> 어느 한쪽의 라우팅 키
  - original 메시지의 본체에 해당하는 본문
  - original 메시지에 대한 metadata를 포함하는 헤더 : <br>
 
