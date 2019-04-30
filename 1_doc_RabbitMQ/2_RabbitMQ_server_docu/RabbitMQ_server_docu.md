@@ -159,7 +159,8 @@ P 버전에서 실행되는 RabbitMQ 설치에 영향을 줍니다. Erlang/OTP�
   - <u>cacertfile</u>의 옵션은 우리가 절대적으로 신뢰하고자 하는 루트 인증기관의 인증서를 지정한다.
   - <u>certfile</u>는 PEM 형식으로 클라이언트 자신의 인증서
   - <u>keyfile</u>은 PEM 형식으로 클라이언트의 개인키 파일<br><br>
-**<u>server_name_indication</u>** : 이 옵션을 서버에서 제공하는 인증서의 “Server Name Indication(서버 이름 표시)” 확인을 위해 TLS 연결을 설정할 서버의 호스트 이름으로 설정합니다. 이렇게 하면 TLS 연결을 설정하는 동안 서버 인증서의 <u>CN=</u> 값이 확인됩니다. <u>server_name_indication</u>을 다른 호스트 이름으로 설정하거나 <u>disable</u>이라는 특수값을 사용하여 이 확인을 비활성화하면 이 동작을 무시할 수 있습니다. 기본적으로 SNI(Server Name Indication)는 활성화되어 있지 않습니다.<br>
+
+ **<u>server_name_indication</u>** : 이 옵션을 서버에서 제공하는 인증서의 “Server Name Indication(서버 이름 표시)” 확인을 위해 TLS 연결을 설정할 서버의 호스트 이름으로 설정합니다. 이렇게 하면 TLS 연결을 설정하는 동안 서버 인증서의 <u>CN=</u> 값이 확인됩니다. <u>server_name_indication</u>을 다른 호스트 이름으로 설정하거나 <u>disable</u>이라는 특수값을 사용하여 이 확인을 비활성화하면 이 동작을 무시할 수 있습니다. 기본적으로 SNI(Server Name Indication)는 활성화되어 있지 않습니다.<br>
 **<u>verify</u>** : 이 옵션을 verify_peer로 설정하여 X509 인증서 체인 확인을 활성화합니다. <u>depth</u> 옵션은 인증서 검증 깊이를 구성합니다. 기본적으로 <u>verify</u>는 <u>verify_none</u>으로 설정되어 있으므로 인증서 체인 확인이 비활성화 됩니다.<br><br>
 - **CA, 인증서 및 개인키 수동 생성(Manually Generating a CA, Certificates and Private Keys)**<br>
 1.먼저 테스트 인증기관을 위한 디렉토리를 만듭니다.<br>
@@ -174,8 +175,9 @@ P 버전에서 실행되는 RabbitMQ 설치에 영향을 줍니다. Erlang/OTP�
 &nbsp;프로덕션 환경에서는 기본 사용자(guest)를 삭제해야 합니다. 기본 사용자는 잘 알려진 자격 증명을 가지고 있기 때문에 기본적으로 localhost에서만 연결할 수 있습니다. 원격 연결을 사용하는 대신 관리 권한과 생성된 암호가 있는 별도의 사용자를 사용하는 것이 좋습니다.<br>
  - 응용 프로그램과 클라이언트 연결 연관
  - 세분화된 사용권한을 사용
- - 자격증명 롤 오버<br>
-&nbsp;동일한 응용 프로그램의 인스턴스가 여러 개 있는 경우 보안 강화(인스턴스마다 자격 증명 집합 사용)와 프로비저닝의 편의성 (일부 또는 모든 인스턴스 간에 자격 증명 집합 공유)이 절충됩니다. 동일하거나 유사한 기능을 수행하고 고정 IP 주소를 갖는 많은 클라이언트가 관련된 IoT 응용 프로그램의 경우 X509 인증서 또는 원본 IP 주소 범위를 사용하여 인증하는 것이 좋습니다.<br><br>
+ - 자격증명 롤 오버<br><br>
+
+ &nbsp;동일한 응용 프로그램의 인스턴스가 여러 개 있는 경우 보안 강화(인스턴스마다 자격 증명 집합 사용)와 프로비저닝의 편의성 (일부 또는 모든 인스턴스 간에 자격 증명 집합 공유)이 절충됩니다. 동일하거나 유사한 기능을 수행하고 고정 IP 주소를 갖는 많은 클라이언트가 관련된 IoT 응용 프로그램의 경우 X509 인증서 또는 원본 IP 주소 범위를 사용하여 인증하는 것이 좋습니다.<br><br>
 
 ## 모니터링 및 리소스 제한(Monitoring and Resource Limits)
 &nbsp;RabbitMQ 노드는 실제 리소스(예 : 사용 가능한 RAM의 양)와 소프트웨어(프로세스가 열 수 있는 최대 파일 핸들 수)와 같은 다양한 리소스로 제한됩니다. 프로덕션 환경에 들어가기 전에 리소스 제한 구성을 평가하고 그 이후의 리소스 사용을 지속적으로 모니터링 하는 것이 중요합니다.<br>
@@ -193,7 +195,7 @@ P 버전에서 실행되는 RabbitMQ 설치에 영향을 줍니다. Erlang/OTP�
  - {disk_free_limit, {mem_relative, 1.0}}은 최소 권장 값이며 사용 가능한 총 메모	리 양으로 환산합니다. 예를 들어 시스템 메모리가 4GB인 RabbitMQ 전용 호스트에	서 사용 가능한 디스크 공간이 4GB 이하로 떨어지면 모든 publisher가 차단되고 새	로운 메시지가 수신되지 않습니다.<br>
  - {disk_free_limit, {mem_relative, 1.5}}가 더 안전한 생산 값입니다. 메모리가 4GB인 RabbitMQ 노드에서 사용 가능한 디스크 공간이 6GB이하로 떨어지면 디스크 	경보가 해제될 때까지 모든 새 메시지가 차단됩니다.<br>
  - {disk_free_limit, {mem_relative, 2.0}}은 가장 보수적인 생산 값입니다.<br><br>
-- **Open File Handles 제한(Open File Handles Limit)**
+- **Open File Handles 제한(Open File Handles Limit)**<br>
 &nbsp;운영 체제는 네트워크 소켓을 포함하여 동시에 열려있는 파일 핸들의 최대 수를 제한합니다. 예상되는 동시 연결 수 및 대기열 수를 허용하는 한도를 설정해야합니다.<br>
 &nbsp;개발 환경을 포함하여 효과적인 RabbitMQ 사용자를 위해 최소한 50K 개의 열린 파일 디스크립터가 환경에 허용되는지 확인해야 합니다.<br><br>
 - **로그 수집(Log Collection)**<br>
@@ -232,8 +234,9 @@ P 버전에서 실행되는 RabbitMQ 설치에 영향을 줍니다. Erlang/OTP�
 &nbsp;클러스터 크기를 결정할 때는 몇 가지 요소를 고려해야 합니다.<br>
  - 예상 처리량
  - 예상 복제(미러수)
- - 데이터 지역<br>
-&nbsp;클라이언트는 모든 노드에 연결할 수 있기 때문에 RabbitMQ는 메시지와 내부 작업에 대한 클러스터 간 라우팅을 수행해야 할 수 있습니다. 가능하다면 소비자와 생산자가 동일한 노드에 연결되도록 해야 합니다. 이렇게 하면 노드 간 트래픽이 감소합니다. 마찬가지로 도움이 되는 것은 consumer들이 현재 큐 마스터를 호스팅하는 노드에 연결하도록 만드는 것입니다. 데이터 지역성을 고려하면 전체 클러스터 처리량이 중요하지 않은 볼륨에 도달할 수 있습니다.<br><br>
+ - 데이터 지역<br><br>
+
+ &nbsp;클라이언트는 모든 노드에 연결할 수 있기 때문에 RabbitMQ는 메시지와 내부 작업에 대한 클러스터 간 라우팅을 수행해야 할 수 있습니다. 가능하다면 소비자와 생산자가 동일한 노드에 연결되도록 해야 합니다. 이렇게 하면 노드 간 트래픽이 감소합니다. 마찬가지로 도움이 되는 것은 consumer들이 현재 큐 마스터를 호스팅하는 노드에 연결하도록 만드는 것입니다. 데이터 지역성을 고려하면 전체 클러스터 처리량이 중요하지 않은 볼륨에 도달할 수 있습니다.<br><br>
 - **노드 시간 동기화(Node Time Synchronization)**<br>
 &nbsp;RabbitMQ 클러스터는 일반적으로 참여 서버의 클럭이 동기화되지 않고 잘 작동할 것입니다. 그러나 관리 UI와 같은 일부 플러그인은 메트릭 처리에 로컬 타임스탬프를 사용하고 노드의 현재 시간이 벗어나면 잘못된 통계를 표시할 수 있습니다. 따라서 서버가 클럭을 동기화 상태로 유지하기 위해 NTP(Network Time Protocol) 또는 이와 유사한 것을 사용하는 것이 좋습니다.<br>
 
@@ -316,7 +319,8 @@ P 버전에서 실행되는 RabbitMQ 설치에 영향을 줍니다. Erlang/OTP�
  - 개요 페이지의 Definitions 창
  - rabbitmqadmin은 Definitions를 가져오는 명령을 제공한다.
  - <u>POST/api/definitions</u> API endpoint를 직접 호출할 수 있다.<br><br>
-또한 <u>load_definitions</u> 구성 매개 변수를 통해 노드 부트 시 로컬 파일에서 definitions를 로드할 수도 있습니다.<br><br>
+
+ &nbsp;또한 <u>load_definitions</u> 구성 매개 변수를 통해 노드 부트 시 로컬 파일에서 definitions를 로드할 수도 있습니다.<br><br>
 - **수동으로 Definitions 백업(Manually Backing Up Definitions)**<br>
 &nbsp;Definitions는 노드의 데이터 디렉토리에 있는 내부 데이터베이스에 저장됩니다. 디렉토리 경로를 얻으려면 실행중인 RabbitMQ 노드에 대해 다음 명령을 실행하면 됩니다.<br>
 &nbsp;`rabbitmqctl eval 'rabbit_mnesia:dir()'`<br><br>
@@ -397,8 +401,9 @@ mory_high_watermark_paging_ratio</u> 구성을 기본 값인 0.5에서 수정해
  &nbsp;가상 호스트는 rabbitmqctl의 <u>delete_vhost</u> 명령을 사용하여 삭제할 수 있습니다.<br>
  &nbsp;다음은 qa1이라는 가상 호스트를 삭제하는 예입니다.<br>
  - HTTP API 사용<br>
- &nbsp;<u>DELETE/api/vhosts/{name}</u> HTTP API 엔드 포인트를 사용하여 가상 호스트를 삭	제할 수 있습니다. 여기서 {name}은 가상 호스트의 이름입니다.<br>
- &nbsp;다음은 curl을 사용하여 rabbitmq.local:15672의 노드에 연결하여 가상 호스트 vh1을 삭제하는 예입니다.<br><br>
+ &nbsp;<u>DELETE/api/vhosts/{name}</u> HTTP API 엔드 포인트를 사용하여 가상 호스트를 삭제할 수 있습니다. 여기서 {name}은 가상 호스트의 이름입니다.<br>
+
+  &nbsp;다음은 curl을 사용하여 rabbitmq.local:15672의 노드에 연결하여 가상 호스트 vh1을 삭제하는 예입니다.<br><br>
 - **가상 호스트와 MQTT(Virtual Hosts and MQTT)**<br>
 &nbsp;AMQP 0-9-1 및 STOMP와 달리 MQTT에는 가상 호스트 개념이 없습니다. MQTT 연결은 기본적으로 단일 RabbitMQ 호스트를 사용합니다. 클라이언트가 클라이언트 라이브러리를 수정하지 않고도 특정 가상 호스트에 연결할 수 있게 해주는 MQTT 관련 규칙 및 기능이 있습니다.<br><br>
 - **Limits**<br>
@@ -469,3 +474,154 @@ mory_high_watermark_paging_ratio</u> 구성을 기본 값인 0.5에서 수정해
  - 가상 호스트 이름 <u>/</u>
  - <u>guest</u>의 기본 비밀번호를 가진 <u>guest</u>라는 사용자, <u>/</u> virtual 호스트에 대한 전체 액세스 권한이 부여된다.<br><br>
 - **"guest"라는 사용자는 localhost를 통해서만 연결할 수 있다.**<br>
+&nbsp;기본적으로 guest 사용자는 브로커에 원격으로 연결할 수 없습니다. loopback 인터페이스(예 : localhost)를 통해서만 연결할 수 있습니다. 이것은 AMQP 0-9-1 및 플러그인을 통해 활성화된 다른 모든 프로토콜에 모두 적용됩니다.<br>
+&nbsp;프로덕션 시스템에서 이 문제를 해결하는 데 권장되는 방법은 필요한 가상 호스트에 액세스할 수 있는 권한을 가진 새로운 사용자 또는 사용자 집합을 만드는 것입니다. 이는 CLI 도구, HTTP API 또는 definitions import를 사용하여 수행할 수 있습니다.<br>
+&nbsp;이것은 configuration files의 <u>loopback_users</u> 항목을 통해 구성됩니다. guest 사용자가 원격 호스트에서 연결할 수 있게 하려면 <u>loopback_users</u> 구성을 <u>none</u>으로 설정해야 합니다.<br>
+&nbsp;또는 기본 구성 파일 형식(rabbitmq.config)에서 다음을 수행하면 됩니다.<br><br>
+- **권한 작동 방식(How Permissions Work)**<br>
+&nbsp;RabbitMQ 클라이언트는 서버에 대한 연결을 설정하면 작동하려는 가상 호스트를 지정합니다. 이 단계에서 서버는 사용자가 가상 호스트에 액세스할 권한이 있는지 여부를 확인하고 그렇지 않으면 연결 시도를 거부하여 첫 번째 수준의 액세스 제어가 실행됩니다.<br>
+&nbsp;자원(즉, 교환 및 큐)은 특정 가상 호스트 내부의 명명된 엔티티로 동일한 이름은 각 가상 호스트의 다른 리소스를 나타냅니다. 자원에 대해 특정 조작이 수행될 경우 2단계 접근통제가 시행됩니다.<br>
+&nbsp;RabbitMQ는 리소스에 대한 구성, 쓰기 및 읽기 작업을 구분합니다. 구성작업을 만들거나 자원을 파괴하거나, 자신의 행동을 변경합니다. 쓰기 작업은 자원에 메시지를 주입, 그리고 읽기 작업은 리소스에서 메시지를 검색합니다. 리소스에 대한 작업을 수행하려면 사용자에게 적절한 권한이 부여되어야 합니다.<br><br>
+- **사용자 태그 및 관리 UI 액세스(User Tags and Management UI Access)**<br>
+&nbsp;사용자는 태그를 연결할 수 있습니다. 현재 관리 UI 액세스만 사용자 태그에 의해 제어됩니다. 태그는 rabbitmqctl을 사용하여 관리되며 새로 생성된 사용자에게는 기본적으로 태그가 설정되어 있지 않습니다.<br><br>
+- **주제 승인(Topic Authorisation)**<br>
+&nbsp;버전 3.7.0부터 RabbitMQ는 topic 교환에 대한 topic authorisation을 지원합니다. topic 변경에 게시된 메시지의 라우팅 키는 게시 승인이 적용될 때 고려됩니다.<br>
+&nbsp;topic authorisation은 producer를 위한 기존 checks 위에 추가 레이어입니다. 주제 유형 exchange에 메시지를 공개하면 기본, 공개키와 라우팅 키 확인을 모두 거치게 됩니다.<br>
+&nbsp;Topic Authorisation는 topic consumer에게도 적용될 수 있습니다. 프로토콜이 다르면 작동이 다릅니다. Topic Authorisation의 개념은 MQTT 및 STOMP와 같은 주제 중심 프로토콜에 대해서만 의미가 있습니다. 예를 들어, AMQP 0-9-1에서 사용자는 큐에서 소비하므로 표준 자원 권한이 적용됩니다. AMQP 0-9-1 외에도 AMQP 0-9-1 주제 교환과 큐/교환 간의 바인딩 라우팅 키는 구성된 주제 권한과 비교하여 검사됩니다.<br>
+&nbsp;기본 승인 백엔드가 사용되면 토픽 교환에 게시하거나 주제에서 소비하는 것은 topic 사용 권한이 정의되지 않은 경우 항상 승인됩니다(새로운 RabbitMQ 설치의 경우). 이 승인 백엔드에서는 Topic Authorisation이 선택 사항이므로 교환을 허용 할 필요가 없습니다. 따라서 Topic Authorisation를 사용하려면 하나 이상의 교환에 대한 주제 권한을 선택하고 정의해야합니다.<br>
+&nbsp;내부(기본) 권한 부여 백엔드는 권한 패턴의 변수 확장을 지원합니다. 지원되는 변수는 <u>username</u> , <u>vhost</u> 및 <u>client_id</u>입니다.<br><br>
+- **백엔드 결합(Combining Backends)**<br>
+&nbsp;<u>auth_backends</u> 구성 키를 사용하여 <u>authn</u> 또는 <u>authz</u>에 다중 백엔드를 사용할 수 있습니다. 여러 개의 인증 백엔드를 사용할 경우 체인의 백엔드에 의해 반환되는 첫 번째 긍정적인 결과는 최종으로 간주됩니다.<br>
+&nbsp;<u>rabbit_auth_backend_internal</u>의 <u>internal</u> 별명을 사용합니다. 별명은 다음과 같은 별명을 사용할 수 있습니다.<br>
+ - <u>internal</u> for <u>rabbit_auth_backend_internal</u>
+ - <u>ldap</u> for <u>rabbit_auth_backend_ldap</u>
+ - <u>http</u> for <u>rabbit_auth_backend_http</u>
+ - <u>amqp</u> for <u>rabbit_auth_backend_amqp</u>
+ - <u>dummy</u> for <u>rabbit_auth_backend_dummy</u>
+&nbsp;인증과 권한 부여를 위해 LDAP 백엔드를 사용하도록 RabbitMQ를 구성한 것입니다. 내부 데이터베이스는 참조하지 않습니다.<br>
+
+ &nbsp;이렇게 하면 LDAP를 먼저 확인한 다음 LDAP를 통해 사용자를 인증할 수 없는 경우 내부 데이터베이스로 다시 넘어갑니다.
+
+# Authentication Mechanisms
+&nbsp;RabbitMQ는 다양한 SASL 인증 메커니즘을 지원합니다. 서버에는 <u>PLAIN</u>, <u>AMQPLAIN</u> 및 <u>RABBIT-CR-DEMO</u>의 세 가지 메커니즘이 내장되어 있으며, 플러그인에서 <u>rabbit_auth_mechanism</u> 동작을 구현하여 고유한 인증 메커니즘을 구현할 수도 있습니다.<br>
+- **내장 매커니즘(Built-in Mechanisms)**<br>
+&nbsp;내장 매커니즘은 다음과 같습니다.<br>
+ - <u>PLAIN</u> : SASL PLAIN 인증. RabbitMQ 서버 및 클라이언트에서 기본적으로 활성화되며 대부분의 다른 클라이언트의 기본 값입니다.<br>
+ - <u>AMQPLAIN</u> : PLAIN의 비표준 버전은 이전 버전과의 호환성을 유지합니다. RabbitMQ 서버에서 기본적으로 활성화됩니다.<br>
+ - <u>EXTERNAL</u> : 인증은 x509 인증서 피어 확인, 클라이언트 IP 주소 범위 등과 같은 대역 외 메커니즘을 사용하여 수행됩니다. 이러한 메커니즘은 일반적으로 RabbitMQ 플러그인에 의해 제공됩니다.<br>
+ - <u>RABBIT-CR-DEMO</u> : 챌린지-응답 인증을 나타내는 비표준 메커니즘. 이 메커니즘은 <u>PLAIN</u>과 동등한 보안 기능을 제공하며 RabbitMQ 서버에서 기본적으로 활성화 되지 않습니다.<br><br>
+- **서버 매커니즘 구성(Mechanism Configuration in the Server)**<br>
+&nbsp;<u>rabbit</u> 응용 프로그램의 구성 변수 <u>auth_mechanisms</u>는 클라이언트를 연결하는 데 설치된 메커니즘을 결정합니다. 이 변수는 기본적으로 ['PLAIN', 'AMQPLAIN']과 같이 메커니즘 이름에 해당하는 원자 목록이어야 합니다. 서버 측 목록은 특정 순서로 간주되지 않습니다.<br><br>
+- **클라이언트 매커니즘 구성(Mechanism Configuration in the Client)**<br>
+ - **Java의 매커니즘 구성(Mechanism Configuration in Java)**<br>
+ &nbsp;Java 클라이언트는 <u>javax.security.sasl</u> 패키지를 기본적으로 사용하지 않습니다. 이	는 Oracle 이외의 JDK에서 예측할 수 없으며 완전히 Android에서 누락되어 있기 때문입니다. <u>SaslConfig</u> 인터페이스로 구성된 RabbitMQ 관련 SASL 구현이 있습니다. 클래스 <u>DefaultSaslConfig</u>는 SASL 구성을 일반적인 경우보다 편리하게 하기 위해 제공됩니다. <u>JDKSaslConfig</u>클래스는 <u>javax.security.sasl</u>에의 브릿지로서 기능하기 위해서 제공되고 있습니다.<br>
+ - **Erlang의 매커니즘 구성(Mechanism Configuration in Erlang)**<br>
+ &nbsp;Erlang 클라이언트는<u>amqp_auth_mechanisms</u> 모듈에 자체 SASL 메커니즘 구현	을 제공합니다. <u>#amqp_params{}</u> 레코드는 네트워크 연결의 우선순위의 인증 기능의 목록을 제공할 수 있습니다.<br>
+ - **.NET의 매커니즘 구성(Mechanism Configuration in .NET)**<br>
+ &nbsp;.Net 클라이언트는 <u>AuthMechanism</u> 및 <u>AuthMechanismFactory</u> 인터페이스를 기반으로 자체 SASL 메커니즘 구현을 제공합니다. <u>ConnectionFactory.AuthMechanisms</u> 속성은 우선순위에서 인증 메커니즘 팩토리의 목록입니다.
+
+# Lazy Queues
+&nbsp;RabbitMQ 3.6.0부터 브로커는 Lazy Queues 개념을 사용합니다. 지연 큐의 주요 목표 중 하나는 매우 긴 큐(수백만개의 메시지)를 지원할 수 있다는 것입니다. 큐는 여러 가지 이유로 길어질 수 있는데,
+
+ - 소비자가 오프라인 상태/ 파손/ 정비 중단 상태
+ - 갑작스런 메시지 수신 급증, 생산자가 소비자를 앞지를 때
+ - 소비자가 정상보다 느릴 때<br>
+
+&nbsp;기본적으로 큐는 메시지가 RabbitMQ에 게시될 때 채워지는 메시지의 메모리 내 캐시를 유지합니다. 이 캐시의 개념은 consumer에게 가능한 한 빨리 메시지를 전달할 수 있다는 것입니다. 영구 메시지는 브로커에 들어가 동시에 RAM에 보관될 때 디스크에 기록될 수 있다는 점에 유의해야 합니다.<br>
+&nbsp;브로커가 메모리를 확보해야 한다고 생각할 때마다 이 캐시의 메시지는 디스크로 페이징됩니다. 디스크에 메시지를 페이징하는 데 시간이 걸리고 큐 프로세스가 차단되므로 페이징하는 동안 새 메시지를 수신할 수 없습니다. 비록 최근 버전의 RabbitMQ가 페이징 알고리즘을 향상시켰지만, 이 상황은 여전히 페이징 알고리즘을 호출해야 할 수 있는 큐에 수백만 개의 메시지가 있는 사용 사례에 적합하지 않습니다.<br>
+&nbsp;그리고 지연 큐들은 메시지를 가능한 빨리 디스크로 옮기려고 합니다. 이는 대부분의 경우 정상 작동 시 RAM에 보관되는 메시지 수가 상당히 적다는 것을 의미합니다. 이는 디스크 I/O 증가 비용에서 발생합니다.<br>
+- **지연 큐 만들기(Making a Queue Lazy)**<br>
+&nbsp;큐는 <u>default</u> 모드 도는 <u>lazy</u> 모드로 실행되도록 만들 수 있습니다.<br>
+ - <u>queue.declare</u> 인수를 통해 모드 설정
+ - 큐 정책 사용<br>
+
+ &nbsp;policy 및 queue 인수가 모두 큐 모드를 지정하면 queue 인수는 policy 값보다 우선순위를 갖는다.<br>
+- **선언시 인수 사용(Using Arguments at the Time of Declaration)**<br>
+&nbsp;큐 모드는 <u>x-queue-mode</u> 큐 선언 인수에 원하는 모드를 지정하는 문자열을 제공하여 설정할 수 있습니다.<br>
+&nbsp;유효한 모드는
+
+ - <u>"default"</u>
+ - <u>"lazy"</u><br>
+
+&nbsp;선언하는 동안 모드를 지정하지 않으면 “default”로 간주됩니다.<br>
+&nbsp;이 예는 큐 모드가 “lazy”로 설정된 큐를 선언하는 예입니다.<br>
+- **Policy 사용(Using a policy)**<br>
+&nbsp;Policy를 사용하여 큐 모드를 지정하려면 키 <u>queue-mode</u>를 정책 정의에 추가해야 합니다.<br>
+
+|rabbitmqctl|rabbitmqctl set_policy Lazy "^lazy-queue$" '{"queue-mode":"lazy"}' --apply-to queues|
+|---|---|
+|**rabbitmqctl(Windows)**|**rabbitmqctl set_policy Lazy "^lazy-queue$" "{""queue-mode"":""lazy""}" --apply-to queues**|
+- **런타임에 큐 모드 변경(Changing Queue Mode at Runtime)**<br>
+&nbsp;큐 모드가 정책을 통해 구성된 경우 큐를 삭제하고 다시 선언할 필요 없이 런타임에 변경할 수 있습니다. “lazy-queue”라는 이름의 큐를 기본(non-lazy) 모드로 사용하려면 일치하는 정책을 업데이트하여 다른 <u>queue-mode</u>를 지정하면 됩니다.
+
+|rabbitmqctl|rabbitmqctl set_policy Lazy "^lazy-queue$" '{"queue-mode":"default"}' --apply-to queues|
+|---|---|
+|**rabbitmqctl(Windows)**|**rabbitmqctl set_policy Lazy "^lazy-queue$" "{""queue-mode"":""default""}" --apply-to queues**|
+- **지연 큐의 성능 고려 사항(Performance Considerations for Lazy Queues)**<br>
+ - 디스크 사용률<br>
+ &nbsp;지연 큐는 producer가 메시지를 일시적으로 게시한 경우에도 가능한 한 빨리 메시	지를 디스크로 옮깁니다. 일반적으로 I/O 사용률이 높아집니다.<br>
+ &nbsp;regular 큐는 메시지를 더 오랫동안 메모리에 보관합니다. 이로 인해 더 많은 데이	터를 디스크에 한 번에 기록해야 하기 때문에 디스크 I/O가 지연되는 결과를 초래합니다.<br><br>
+- **RAM 사용률(RAM Utilization)**<br>
+&nbsp;모든 사용 사례에서 정확한 숫자를 제공하는 것은 불가능하지만, 이는 일반 및 지연 큐 간의 RAM 사용량의 차이를 보여주는 단순한 테스트입니다.<br>
+
+|Number of messages|Message body size|Message type|Producers|Consumers|
+|---|---|---|---|---|
+|1,000,000|1,000bytes|persistent|1|0|
+&nbsp;위의 메시지를 처리한 후 기본 및 지연 큐의 RAM 사용률<br>
+
+|Queue mode|Queue process memory|Messages in memory|Memory used by messages|Node memory|
+|---|---|---|---|---|
+|<u>default</u>|257MB|386,307|368MB|734MB|
+|<u>lazy</u>|159KB|0|0|117MB|
+&nbsp;두 큐 모두 1,000,000개의 메시지를 유지하고 1.2GB의 디스크 공간을 사용한 것을 확인할 수 있습니다.<br>
+- **런타임에 큐 모드 전환(Switching Queue Mode at Runtime)**<br>
+&nbsp;<u>default</u> 큐를 <u>lazy</u> 큐로 변환할 때 큐에서 메시지를 디스크로 이동해야 할 때와 같은 성능 영향을 받게 됩니다.<br>
+&nbsp;일반 모드에서 지연 모드로 변환하는 동안 큐는 RAM에 저장된 모든 메시지를 먼저 디스크에 표시합니다. 해당 작업이 진행되는 동안 게시 채널에서 더 이상 메시지를 수신하지 않습니다. 초기 페이지 아웃이 완료되면 큐에서 게시, 확인 및 기타 명령을 수신하기 시작합니다.<br>
+&nbsp;큐가 지연모드에서 기본 모드로 변경되면 서버가 다시 시작된 후 큐가 복구될 때와 동일한 프로세스가 수행됩니다.<br><br>
+- **Node Startup**<br>
+&nbsp;노드가 실행 중이며 정상 작동중인 경우 지연 큐는 기내(in-fight) 메시지만 제외한 모든 메시지를 디스크에 보관합니다.<br>
+&nbsp;RabbitMQ 노드가 시작되면 지연 메시지를 포함한 모든 큐는 최대 16,384개의 메시지를 RAM에 로드합니다.<br>
+&nbsp;RabbitMQ 노드가 메모리 제약이 있거나 노드에 호스팅된 많은 지연 큐가 있는 경우 용량 계획에서 중요한 고려 사항입니다.<br>
+&nbsp;메모리 또는 디스크 공간 측면에서 공급이 부족한 RabbitMQ 노드가 시작되지 않는다는 것을 명심해야 합니다.<br> &nbsp;<u>queue_index_embed_msgs_below</u>를 0으로 설정하면 큐 인덱스에 페이로드가 포함되지 않습니다. 따라서 지연 시작 큐는 노드 시작 시 메모리에 메시지 페이로드를 로드하지 않습니다. <u>queue_index_embed_msgs_below</u>를 0으로 설정하면 모든 메시지가 메시지 저장소에 저장됩니다. 많은 지연 큐에 있는 많은 메시지로 인해 디스크 사용량이 증가하고 파일 설명자 사용량이 높아질 수 있습니다.<br>
+&nbsp;메시지 저장소는 추가 지향적이며 압축 메커니즘을 사용하여 디스크 공간을 회수합니다. 극단적인 시나리오에서는 디스크에 저장된 메시지 페이로드 합계에 비해 디스크 공간을 두 배 더 사용할 수 있습니다. 이러한 피크(peaks)를 설명하기 위해 디스크 공간을 overprovision하는 것이 중요합니다.<br>
+&nbsp;메시지 저장소의 모든 메시지는 세그먼트 파일 또는 세그먼트라는 16MB 파일에 저장됩니다. 각 큐는 액세스해야하는 각 세그먼트 파일에 대해 고유 한 파일 설명자가 있습니다. 예를 들어 100 개의 큐에 10GB 상당의 메시지가 저장되는 경우 메시지 저장소에는 640개의 파일이 있고 최대 64,000개의 파일 설명자가 있습니다. 노드가 열린 파일 한도가 충분히 높고 의심스러운 경우 (예 : 300K 또는 500K) 노드가 과도하게 제공되는지 확인해야 합니다. 새로 설치하는 경우 msg_store_file_size_limit 구성키를 사용하여 메시지 저장소에서 사용하는 파일 크기를 늘릴 수 있습니다. 기존 설치의 세그먼트 파일 크기를 절대로 변경 하면 노드의 메시지 하위 집합이 무시되어 세그먼트 파일 압축이 중단될 수 있습니다.<br><br>
+- **혼합된 메시지 크기의 지연 큐(Lazy Queues with Mixed Message Sizes)**<br>
+&nbsp;처음 10,000개의 메시지의 모든 메시지가 <u>queue_index_embed_msgs_below</u> 값 아래에 있고 나머지는 이 값보다 큰 경우 노드 시작 시 처음 10,000개만 메모리에 로드됩니다.<br><br>
+- **인터리브 메시지의 지연 큐(Lazy Queues with Interleaved Message)**<br>
+&nbsp;주어진 인터리브된 메시지 크기 :<br>
+
+|Position in queue|Message size in bytes|
+|---|---|
+|1|5,000|
+|2|100|
+|3|5,000|
+|4|200|
+|...|...|
+|79|4,000|
+|80|5,000|
+&nbsp;<u>queue_index_embed_msgs_below</u> 값 아래의 처음 20개 메시지만 노드 시작 시 메모리로 로드됩니다. 이 시나리오에서 메시지는 21KB 의 시스템 메모리를 사용하고 큐 프로세스는 다른 32KB의 시스템 메모리를 사용합니다. 큐 프로세스가 시작을 완료하는데 필요한 전체 시스템 메모리는 53KB입니다.
+
+# Firehose(Message Tracing)
+&nbsp;RabbitMQ에는 “Firehose” 기능이 있습니다. 관리자는 이를 통해 게시 및 delivery 통지되어야 하는 교환을 (노드별로, 호스트별로) 설정할 수 있습니다.<br>
+- **Firehose 활성화**<br>
+1.어떤 노드와 어떤 가상 호스트를 활성화할지 결정합니다.<br>
+2.선택한 가상 호스트에서 큐를 생성하고 교환 amq.rabbitmq.trace topic exchange에 바인드한 후 consuming을 시작합니다.<br>
+3.<u>rabbitmqctl trace_on</u>을 실행합니다.<br><br>
+- **Firehose 비활성화**<br>
+1.<u>rabbitmqctl trace_off</u>를 실행합니다.<br>
+2.Firehose가 사용하는 큐를 정리합니다.<br>
+&nbsp;Firehose 상태는 지속되지 않으며 서버 시작 시 기본 값은 off가 됩니다.<br><br>
+- **Firehose 알림 형식**<br>
+&nbsp; Firehose는 주제 교환에 메시지를 게시하는 <u>amq.rabbitmq.trace</u>와
+ - 브로커를 입력하는 메시지의 경우 <u>"publish.exchangename"</u> 또는 브로커를 나가는 메시지의 경우 어느 한쪽의 라우팅 키 <u>"delivery.queuename"</u>
+ - original 메시지의 본체에 해당하는 본문
+ - original 메시지에 대한 metadata를 포함하는 헤더 : <br>
+
+
+ |Header|Type|Description|
+ |---|---|---|
+ |exchange_name|longstr|메시지가 게시된 exchange의 이름|
+ |routing_keys|array|라우팅 키와 CC 및 BCC 헤더의 내용|
+ |properties|table|내용 속성(content properties)|
+ |node|longstr|추적 메시지가 생성된 Erlang 노드|
+ |redelivered|signedint|메시지에 재전달 플래크가 설정되었는지|
