@@ -11,9 +11,9 @@ sudo apt install rabbitmq-server -y
 sudo rabbitmq-plugins enable rabbitmq_management
 sudo rabbitmq-plugins enable rabbitmq_mqtt
 
-sudo rabbitmqctl add_user admin yana6728
+sudo rabbitmqctl add_user admin qwer1234
 sudo rabbitmqctl set_user_tags admin administrator
-sudo rabbitmqctl set_permissions -p       / admin ".*" ".*" ".*"
+sudo rabbitmqctl set_permissions -p / admin ".*" ".*" ".*"
 
 sudo rabbitmqctl add_user test1 first
 sudo rabbitmqctl set_permissions -p / test1 ".*" ".*" ".*"
