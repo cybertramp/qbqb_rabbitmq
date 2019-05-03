@@ -1,20 +1,20 @@
 # TLS Support
-&nbsp;RabbitMQ는 TLS를 지원합니다. TLS를 사용하여 클러스터의 노드 간 연결을 암호화할 수도 있습니다.
-TLS는 클라이언트/서버 응용 프로그램이 네트워크로 통신을 하는 과정에서 도청, 간섭, 위조를 방지하기 위하여 설계되었습니다.
+&nbsp;RabbitMQ는 TLS를 지원한다. TLS를 사용하여 클러스터의 노드 간 연결을 암호화할 수도 있다.
+TLS는 클라이언트/서버 응용 프로그램이 네트워크로 통신을 하는 과정에서 도청, 간섭, 위조를 방지하기 위하여 설계되었다.
 이 규약은 인터넷 같이 TCP/IP 네트워크를 사용하는 통신에 적용되며, 통신 과정에서 전송계층 종단간 보안과 데이터 무결성 데이터
-무결성을 확보해줍니다. 인터넷을 사용한 통신에서 보안을 확보하려면 두 통신 당사자가 서로가 신뢰할 수 있는 자임을 확인할 수 있어야
-하며, 서로간의 통신 내용이 제 3자에 의해 도청되는 것을 방지해야 합니다.
+무결성을 확보해준다. 인터넷을 사용한 통신에서 보안을 확보하려면 두 통신 당사자가 서로가 신뢰할 수 있는 자임을 확인할 수 있어야
+하며, 서로간의 통신 내용이 제 3자에 의해 도청되는 것을 방지해야 한다.
 따라서 서로 자신을 신뢰할 수 있음을 알리기 위해 전자 서명이 포함된 인증서를 사용하며, 도청을 방지하기 위해 통신 내용을
-암호화합니다. 이러한 통신 규약을 묶어 정리한 것이 바로 TLS입니다.
+암호화한다. 이러한 통신 규약을 묶어 정리한 것이 바로 TLS이다.
 TLS에서 서버 및 클라이언트의 신원을 확인하는 데는 인증서가 사용되며, 인증서의 신뢰성은 인증서를 발급해 준 인증기관에 의해
-결정됩니다.<br>
-&nbsp;AMQP 0-9-1뿐만 아니라 RabbitMQ에서 지원하는 모든 프로토콜에 대해 TLS를 사용할 수 있습니다.
+결정된다.<br>
+&nbsp;AMQP 0-9-1뿐만 아니라 RabbitMQ에서 지원하는 모든 프로토콜에 대해 TLS를 사용할 수 있다.
 ## RabbitMQ를 이용한 클라이언트 연결에 대한 TSL의 일반적인 접근법(Common Approaches to TLS for client Connections with RabbitMQ)
-&nbsp;클라이언트 연결의 경우 두 가지 일반적인 접근 방식이 있습니다.
+&nbsp;클라이언트 연결의 경우 두 가지 일반적인 접근 방식이 있다.
 - TLS 연결을 처리하도록 RabbitMQ 구성
 - 클라이언트 연결의 TLS terminating을 수행하기 위해 프록시나 load balancer를 사용하고 RabbitMQ 노드에 대한 plain TCP 연결을 이용한다.
 ## TLS 지원을 위한 Erlang/OTP 요구 사항<br>(Erlang/OTP Requirements for TLS Support)
-&nbsp;TLS 연결을 지원하기 위해 RabbitMQ가 Erlang/OTP 설치에서 TLS 및 암호화 관련 모듈을 사용할 수 있어야 합니다. TLS와 함께 사용할 Erlang/OTP 권장 버전은 가장 최근에 지원되는 Erlang입니다. 이전 버전은 지원이 되더라도 일부 제한 사항이 있습니다.<br>
+&nbsp;TLS 연결을 지원하기 위해 RabbitMQ는 Erlang/OTP 설치에서 TLS 및 암호화 관련 모듈을 사용할 수 있어야 한다. TLS와 함께 사용할 Erlang/OTP 권장 버전은 가장 최근에 지원되는 Erlang이다. 이전 버전은 지원이 되더라도 일부 제한 사항이 있다.<br>
 &nbsp;Erlang <u>asn1</u>, <u>crypto</u>, <u>public_key</u> 및 <u>ssl</u> 라이브러리(응용 프로그램)가 설치되어야 합니다. Devian과 Ubuntu에서는 각각 erlang-asn1, erlang-crypto, erlang-public-key 및 erlang-ssl 패키지에 의해 제공됩니다.<br>
 &nbsp;Erlang/OTP가 소스에서 컴파일되면, configure가 OpenSSL을 찾고 위의 라이브러리를 구축하도록 할 필요가 있습니다.<br><br>
 - **TLS 기본사항 : 인증기관, 인증서, 키(TLS Basics: Certificate Authorities, Certificates, Keys)**<br>
