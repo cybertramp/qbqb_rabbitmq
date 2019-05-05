@@ -15,11 +15,11 @@ sudo rabbitmqctl add_user admin qwer1234
 sudo rabbitmqctl set_user_tags admin administrator
 sudo rabbitmqctl set_permissions -p / admin ".*" ".*" ".*"
 
-sudo rabbitmqctl add_user test1 first
+sudo rabbitmqctl add_user test1 1234
 sudo rabbitmqctl set_permissions -p / test1 ".*" ".*" ".*"
 
-sudo rabbitmqctl add_user test2 second
+sudo rabbitmqctl add_user test2 1234
 sudo rabbitmqctl set_permissions -p / test2 ".*" ".*" ".*"
 
-sudo rabbitmqctl add_user test3 third
+sudo rabbitmqctl add_user test3 1234
 sudo rabbitmqctl set_permissions -p / test3 ".*" ".*" ".*"
