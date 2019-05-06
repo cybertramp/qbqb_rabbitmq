@@ -14,6 +14,13 @@ sudo rabbitmqctl stop_app
 sudo rabbitmqctl reset
 sudo rabbitmqctl start_app
 
+sudo rm -rf /var/log/rabbitmq/rabbit@ubuntu.log
+sudo touch /var/log/rabbitmq/rabbit@ubuntu.log
+sudo chmod -R 644 /var/log/rabbitmq/rabbit@ubuntu.log
+sudo chown -R rabbitmq:rabbitmq /var/log/rabbitmq/rabbit@ubuntu.log
+
+sudo rabbitmqctl rotate_logs
+
 # setup rabbitmq-server
 sudo rabbitmqctl add_user admin qwer1234
 sudo rabbitmqctl set_user_tags admin administrator
