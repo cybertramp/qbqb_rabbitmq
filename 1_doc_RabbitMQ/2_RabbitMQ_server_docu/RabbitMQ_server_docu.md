@@ -17,14 +17,19 @@ TLS에서 서버 및 클라이언트의 신원을 확인하는 데는 인증서�
 &nbsp;PKI는 암호학적으로 검증할 수 있는 digital identity의 개념을 기반으로 한다. 이러한 identity는 인증서 또는 인증서/키 쌍이라고 불린다. 모든 TLS 지원 서버에는 일반적으로 연결에서 보낸 트래픽을 암호화하는 데 사용되는 연결별 키를 계산하는 데 사용하는 자체 인증서/키 쌍이 있다. 그러나 클라이언트는 자체 인증서를 가지고 있을 수도 있고 가지고 있지 않을 수도 있다. RabbitMQ와 같은 메시징 및 도구와 관련하여 클라이언트가 인증서/키 쌍을 사용하여 서버에서 신원을 확인할 수 있도록 하는 것이 일반적이다.<br>
 &nbsp;인증서/키 쌍은 OpenSSL과 같은 도구에 의해 생성되고 인증기관(CA)이라고 불리는 기관이 엔티티에 의해 서명된다. CA(Certificate Authorities)는 사용자가 사용하는 인증서를 발급한다. 인증서는 CA에 의해 서명될 때 신뢰 사슬(chain)을 형성한다. 이러한 체인에는 둘 이상의 CA가 포함될 수 있지만 궁극적으로 애플리케이션에서 사용된 인증서/키 쌍이 서명한다. CA 인증서의 체인은 일반적으로 단일 파일과 함께 배포되는데 이러한 파일을 CA 번들이라고 한다.<br>
 &nbsp;다음은 하나의 루트 CA와 하나의 leaf(서버 또는 클라이언트)인증서가 있는 가장 기본적인 체인의 예이다.<br>
-![image01](https://user-images.githubusercontent.com/45917477/57404010-ec8c2d00-7215-11e9-8f68-cc319437138b.png)
+![image01](https://user-images.githubusercontent.com/45917477/57404010-ec8c2d00-7215-11e9-8f68-cc319437138b.png)<br>
+&nbsp;중간 인증서가 있는 체인은 다음과 같다.<br>
+![image02](https://user-images.githubusercontent.com/45917477/57404306-a1264e80-7216-11e9-93d0-fd0413813b37.png)<br>
 &nbsp;TLS 지원 RabbitMQ 노드는 파일(CA 번들), 인증서(공개키) 파일 및 개인키 파일에서 신뢰할 수 있다고 간주되는 인증기관 인증서 집합을 가지고 있어야 한다. 파일들은 로컬 파일 시스템으로부터 읽을 수 있으며 RabbitMQ 노드 프로세스의 권한이 있는 사용자가 읽을 수 있어야 한다.<br><br>
 - **CA, 인증서 및 키를 생성한는 짧은 경로(The Short Route to Generating a CA, Certificates, and Keys)**<br>
 &nbsp;사용자가 CA certifica 번들 파일과 두 개의 인증서/키 쌍에 액세스할 수 있다고 가정했을 때, 인증서/키 쌍은 RabbitMQ 및 TLS-지원 포트에서 서버에 접속하는 클라이언트에 의해 사용된다. 인증기관과 두 개의 키 쌍을 생성하는 과정은 상당히 복잡하며 오류가 발생하기 쉽다. MacOS나 Linux에서 이러한 모든 것들을 쉽게 생성할 수 있는 방법은 tls-gen을 사용하는 것이다. <u>Python 3.5+</u>과 <u>PATH</u>의 <u>make</u>, <u>openssl</u>이 필요하다.<br>
 &nbsp;<u>tls-gen</u>과 <u>tls-gen</u>이 생성하는 인증서/키 쌍은 자체 서명되며 개발 및 테스트 환경에만 적합하다는 점에 유의해야 한다. 대부분의 프로덕션 환경은 널리 신뢰받는 상용 CA에서 발급한 인증서와 키를 사용해야 한다.<br><br>
 - **<u>tls-gen</u>의 기본 프로필 사용(Using tls-gen's Basic Profile)**<br>
 &nbsp;다음은 CA를 생성하고 이를 사용하여 두 개의 인증서/키 쌍을 생성하는 예제이다. 하나는 서버용이고 다른 하나는 클라이언트용이다.<br>
-&nbsp;기본 tls-gen profile로 생성된 인증서 체인은 다음과 같다.<br><br>
+![image03](https://user-images.githubusercontent.com/45917477/57404410-dc288200-7216-11e9-80de-d6f79c35e17d.png)<br>
+&nbsp;기본 tls-gen profile로 생성된 인증서 체인은 다음과 같다.<br>
+![image04](https://user-images.githubusercontent.com/45917477/57404438-eea2bb80-7216-11e9-916d-78208c083751.png)<br>
+
 - **RabbitMQ에서 사용가능한 TLS 지원(Enabling TLS Support in RabbitMQ)**<br>
 &nbsp;RabbitMQ에서 TLS 지원을 활성화하기 위해서는 노드는 인증기관 번들(하나 이상의 CA인증서가 있는 파일), 서버의 인증서 파일 및 서버 키의 위치를 알 수 있도록 구성되어야 한다. 또한 TLS Listener는 TLS-지원 클라이언트 연결에 대해 수신 대기할 포트가 무엇인지 알 수 있어야 한다.<br>
 &nbsp;다음은 TLS와 관련된 필수 구성 설정이다.<br>
@@ -41,9 +46,11 @@ TLS에서 서버 및 클라이언트의 신원을 확인하는 데는 인증서�
 - **인증서 및 개인키 파일 경로(Certificate and Private Key File Paths)**<br>
 &nbsp;RabbitMQ는 구성된 CA 인증서 번들, 서버 인증서 및 개인키를 읽을 수 있어야 한다. 파일이 존재해야 하며 적절한 권한이 있어야 한다. 그렇지 않을 경우 노드는 TLS 사용 연결을 시작하지 못하거나 실패하게 된다.<br><br>
 - **TLS가 활성화되어 있는지 확인하는 방법(How to Verify that TLS is Enabled)**<br>
-&nbsp;노드에서 TLS가 활성화되어 있는지 확인하기 위해서는 노드를 다시 시작하고 로그 파일을 검사해야 한다. 다음과 같이 활성화된 TLS Listener에 대한 항목을 포함해야 한다.<br><br>
+&nbsp;노드에서 TLS가 활성화되어 있는지 확인하기 위해서는 노드를 다시 시작하고 로그 파일을 검사해야 한다. 다음과 같이 활성화된 TLS Listener에 대한 항목을 포함해야 한다.<br>
+![image05](https://user-images.githubusercontent.com/45917477/57404508-0f6b1100-7217-11e9-84dd-12effede92cf.png)<br>
 - **개인키 비밀번호 제공(Providing Private Key Password)**<br>
-&nbsp;개인키는 선택적으로 암호로 보호할 수 있다. 암호를 제공하기 위해서는 password 옵션을 사용한다.<br><br>
+&nbsp;개인키는 선택적으로 암호로 보호할 수 있다. 암호를 제공하기 위해서는 password 옵션을 사용한다.<br>
+![image06](https://user-images.githubusercontent.com/45917477/57404536-21e54a80-7217-11e9-9707-8db1e8ffb450.png)<br>
 ## TLS peer 확인(TLS Peer Verification)
 - **피어 검증 작동 방식(How Peer Verification Works)**<br>
 &nbsp;TLS 연결이 설정되면 클라이언트와 서버는 여러 단계를 거쳐 연결 협상을 수행한다. 첫 번째 단계는 피어가 선택적으로 인증서를 exchange한다. 인증서를 exchange한 후 피어는 선택적으로 자신의 CA 인증서와 제시된 인증서 간에 신뢰 체인을 설정하기 위해 시도할 수 있다. 이 프로세스는 피어 검증 또는 피어 유효성 검사로 알려져 있으며, 인증 경로 유효성 검사 알고리즘으로 알려진 알고리즘을 따른다.<br>
