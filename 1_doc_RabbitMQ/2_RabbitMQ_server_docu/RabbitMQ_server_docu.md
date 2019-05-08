@@ -221,9 +221,9 @@ P 버전에서 실행되는 RabbitMQ 설치에 영향을 준다. Erlang/OTP를 �
 &nbsp;CLI 도구는 동일한 인증 메커니즘을 사용한다. 노드 간 및 CLI 통신 포트 액세스는 RabbitMQ 노드 또는 CLI 도구를 실행하는 호스트로 제한하는 것이 좋다.<br>
 &nbsp;TLS와의 노드 간 통신을 보안하는 것이 좋다. 이는 CLI 도구가 TLS를 사용하도록 구성되어 있음을 의미한다.<br><br>
 - **방화벽 구성(Firewall Configuration)**<br>
-&nbsp;RabbitMQ에서 사용하는 포트는 크게 두 가지 범주 중 하나로 분류할 수 있다.<br>
- - 클라이언트 라이브러리가 사용하는 포트(AMQP 0-9-1, AMQP 1.0,MQTT,STOMP,HTTP API)
- - 다른 모든 포트(노드 간 통신, CLI 도구 등)<br><br>
+&nbsp;RabbitMQ에서 사용하는 포트는 크게 두 가지 범주 중 하나로 분류할 수 있다.
+  - 클라이언트 라이브러리가 사용하는 포트(AMQP 0-9-1, AMQP 1.0,MQTT,STOMP,HTTP API)
+  - 다른 모든 포트(노드 간 통신, CLI 도구 등)<br><br>
 
  &nbsp;후자의 범주의 포트에 대한 액세스는 일반적으로 RabbitMQ 노드 또는 CLI 도구를 실행하는 호스트로 제한되어야 한다.<br>
 - **TLS**<br>
@@ -233,9 +233,9 @@ P 버전에서 실행되는 RabbitMQ 설치에 영향을 준다. Erlang/OTP를 �
 ## 클러스터링 고려 사항(Clustering Considerations)
 - **클러스터 크기(Cluster Size)**<br>
 &nbsp;클러스터 크기를 결정할 때는 몇 가지 요소를 고려해야 한다.<br>
- - 예상 처리량
- - 예상 복제(미러수)
- - 데이터 지역<br><br>
+  - 예상 처리량
+  - 예상 복제(미러수)
+  - 데이터 지역<br><br>
 
  &nbsp;클라이언트는 모든 노드에 연결할 수 있기 때문에 RabbitMQ는 메시지와 내부 작업에 대한 클러스터 간 라우팅을 수행해야 할 수 있다. 가능하다면 consumer와 producer가 동일한 노드에 연결되도록 해야 한다. 이렇게 하면 노드 간 트래픽이 감소할 수 있다. 마찬가지로 도움이 되는 것은 consumer들이 현재 큐 마스터를 호스팅하는 노드에 연결하도록 만드는 것이다. 데이터 지역성을 고려할 때 전체 클러스터 처리량은 중요하지 않은 볼륨에 도달할 수 있다.<br><br>
 - **노드 시간 동기화(Node Time Synchronization)**<br>
@@ -255,7 +255,7 @@ P 버전에서 실행되는 RabbitMQ 설치에 영향을 준다. Erlang/OTP를 �
 - **The shovel**<br>
 &nbsp;shovel와 함께 브로커를 연결하는 것은 개념적으로 federation과 연결하는 것과 비슷하다. 그러나 shovel은 낮은 레벨에서 작동한다.<br>
 &nbsp;Federation은 교환 및 큐의 독선적인 분배를 제공하는 것을 목표로 하지만, shovel은 그저 한 브로커의 큐에서 메시지를 소비하고 다른 브로커의 exchange에 전달하는 것을 목표로 한다.<br>
-&nbsp;일반적으로 Federation이 제공하는 것보다 더 많은 통제(Control)가 필요할 때 인터넷을 통해 브로커들을 연결시키기 위해 shovel을 사용한다.<br>
+&nbsp;일반적으로 Federation이 제공하는 것보다 더 많은 통제(Control)가 필요할 때 인터넷을 통해 브로커들을 연결시키기 위해 shovel을 사용한다.<br><br>
 - **Summary**
 
 |Federation/shovel|Clustering|
@@ -318,17 +318,17 @@ P 버전에서 실행되는 RabbitMQ 설치에 영향을 준다. Erlang/OTP를 �
 &nbsp;Definitions는 JSON 파일로 내보내거나 수동으로 백업될 수 있다. 대부분의 경우 Definitions 내보내기/가져오기가 이를 수행하는 최적의 방법이다. 수동 백업은 노드 이름이나 호스트 이름을 변경할 경우 추가 단계가 필요하다.<br><br>
 - **Exporting 내보내기(Exporting Definitions)**<br>
 &nbsp;Definitions는 HTTP API를 사용하여 JSON 파일로 내보내진다<br>
- - Overview 페이지에 Definitions 창이 있다.
- - rabbitmqadmin은 definitions을 내보내는 명령을 제공한다.
- - <u>GET/api/definitions</u> API endpoint를 직접 호출할 수 있다.<br><br>
+  - Overview 페이지에 Definitions 창이 있다.
+  - rabbitmqadmin은 definitions을 내보내는 명령을 제공한다.
+  - <u>GET/api/definitions</u> API endpoint를 직접 호출할 수 있다.<br><br>
 
  &nbsp;Definitions은 특정 가상 호스트 혹은 전체 클러스터(혹은 독립된 노드)에 대해 내보낼 수 있다. 단일 가상 호스트 Definitions만 내보내는 경우 일부 정보(예 : 클러스터 사용자 및 권한)가 결과 파일에서 제외된다.<br>
 &nbsp;내보낸 사용자 데이터는 해시 함수 정보와 암호 해시를 포함한다.
 - **Definitions 가져오기(Importing Definitions)**<br>
 &nbsp;Definitions가 있는 JSON 파일은 동일한 세 가지 방법으로 가져올 수 있다.<br>
- - Overview 페이지의 Definitions 창이 있다.
- - rabbitmqadmin은 Definitions를 가져오는 명령을 제공한다.
- - <u>POST/api/definitions</u> API endpoint를 직접 호출할 수 있다.<br><br>
+  - Overview 페이지의 Definitions 창이 있다.
+  - rabbitmqadmin은 Definitions를 가져오는 명령을 제공한다.
+  - <u>POST/api/definitions</u> API endpoint를 직접 호출할 수 있다.<br><br>
 
  &nbsp;또한 <u>load_definitions</u> 구성 매개 변수를 통해 노드 부트 시 로컬 파일에서 definitions를 로드할 수도 있다.<br>
  &nbsp;Definitions 파일을 가져오면 동일한 definitions 집합(예 : 사용자(users), 가상호스트, 권한, 토폴로지)을 가진 브로커를 생성하기에 충분하다.<br>
@@ -336,9 +336,9 @@ P 버전에서 실행되는 RabbitMQ 설치에 영향을 준다. Erlang/OTP를 �
 &nbsp;Definitions는 노드의 데이터 디렉토리에 위치한 내부 데이터베이스에 저장된다. 디렉토리 경로를 얻으려면 실행중인 RabbitMQ 노드에 대해 다음 명령을 실행하면 된다.<br>
 &nbsp;`rabbitmqctl eval 'rabbit_mnesia:dir()'`<br><br>
 &nbsp;만약 노드가 실행 중이 아니라면 기본 데이터 디렉토리를 검사할 수 있다.<br>
- - Debian 및 RPM 패키지의 경우 : <u>/var/lib/rabbitmq/mnesia</u>
- - Windows의 경우 : <u>%APP_DATA%\RabbitMQ\db</u>
- - MacOS 및 일반 UNIX 패키지의 경우 : <u>{installation_root}/var/lib/rabbitmq/mnesia</u><br><br>
+  - Debian 및 RPM 패키지의 경우 : <u>/var/lib/rabbitmq/mnesia</u>
+  - Windows의 경우 : <u>%APP_DATA%\RabbitMQ\db</u>
+  - MacOS 및 일반 UNIX 패키지의 경우 : <u>{installation_root}/var/lib/rabbitmq/mnesia</u><br><br>
 - **수동 Definitions 백업에서 복원(Restoring from a Manual Definitions Backup)**<br>
 &nbsp;내부 노드 데이터베이스는 노드 이름을 특정 레코드에 저장한다. 노드 이름이 변경되면 rabbitmqctl 명령을 사용하여 변경 사항을 반영하도록 데이터베이스를 먼저 업데이트해야 한다.<br>
 &nbsp;`rabbitmqctl rename_cluster_node <oldnode> <newnode>`<br><br>
@@ -402,18 +402,18 @@ mory_high_watermark_paging_ratio 구성을 기본값인 0.5에서 수정해야 �
 - **가상 호스트 생성(Creating a Virtual Hosts)**<br>
 &nbsp;가상 호스트는 CLI 도구 또는 HTTP API endpoint를 사용하여 생성할 수 있다.<br>
 &nbsp;새로 생성된 가상 호스트에는 사용자 사용 권한이 없으므로 사용자가 가상 호스트에 연결하고 사용할 수 있도록 하려면 가상 호스트를 사용할 모든 사용자에게 사용 권한을 부여해야 한다(예 : rabbitmqctl set_permissions 사용).<br>
- - CLI 도구 사용<br>
+  - CLI 도구 사용<br>
  &nbsp;가상 호스트는 rabbitmqctl의 <u>add_vhost</u> 명령을 사용하여 생성할 수 있다.<br>
  &nbsp;다음은 qa1이라는 가상 호스트를 만드는 예이다.<br>
- - HTTP API 사용<br>
+  - HTTP API 사용<br>
  &nbsp;가상 호스트는 PUT /api/vhosts/{name} HTTP API endpoint(엔드 포인트)를 사용하여 생성될 수 있다. {name}은 가상 호스트의 이름을 말한다.<br>
  &nbsp;다음은 curl을 사용하여 rabbitmq.local:15672의 노드에 연결하여 가상 호스트 vh1을 생성하는 예이다.<br><br>
 - **가상 호스트 삭제(Deleting a Virtual Hosts)**<br>
 &nbsp;가상 호스트는 CLI 도구 또는 HTTP API 엔드 포인트를 사용하여 만들 수 있다. 가상 호스트를 삭제하면 가상 호스트의 모든 엔티티(큐, 교환, 바인딩, 정책, 권한 등)가 영구적으로 삭제된다.<br>
- - CLI 도구 사용<br>
+  - CLI 도구 사용<br>
  &nbsp;가상 호스트는 rabbitmqctl의 <u>delete_vhost</u> 명령을 사용하여 삭제할 수 있다.<br>
  &nbsp;다음은 qa1이라는 가상 호스트를 삭제하는 예이다.<br>
- - HTTP API 사용<br>
+  - HTTP API 사용<br>
  &nbsp;<u>DELETE/api/vhosts/{name}</u> HTTP API 엔드 포인트를 사용하여 가상 호스트를 삭제할 수 있다. 여기서 {name}은 가상 호스트의 이름이다.<br>
 
   &nbsp;다음은 curl을 사용하여 rabbitmq.local:15672의 노드에 연결하여 가상 호스트 vh1을 삭제하는 예입니다.<br><br>
@@ -457,9 +457,9 @@ mory_high_watermark_paging_ratio 구성을 기본값인 0.5에서 수정해야 �
 - **큐 마스터 위치(Queue Master Location)**<br>
 &nbsp;RabbitMQ의 모든 큐는 홈 노드를 가진다. 이 노드를 큐 마스터라고 하는데 모든 큐 작업은 먼저 마스터를 거친 후 미러로 복제된다. 이는 메시지의 FIFO 순서를 보장하는 데 필요하다. 큐 마스터는 여러 전략을 사용하여 노드 간에 분산될 수 있다. 사용되는 전략은 세 가지 방식으로 제어된다.<br>
 &nbsp;즉, <u>x-queue-master-locator</u> 큐 선언 인수 사용하고, <u>queue-master-locator</u> 정책 키를 설정하거나 또는 <u>the configuration file</u>에서 <u>queue_master_locator</u> 키를 정의한다. 가능한 전략과 설정 방법은 다음과 같다.
- - 최소한의 바인드된 마스터를 호스팅하는 노드를 선택한다. : <u>min_masters</u>
- - 큐가 연결되어 있음을 선언한 클라이언트 노드를 선택한다. : <u>client-local</u>
- - 임의 노드 선택 : <u>random</u><br><br>
+  - 최소한의 바인드된 마스터를 호스팅하는 노드를 선택한다. : <u>min_masters</u>
+  - 큐가 연결되어 있음을 선언한 클라이언트 노드를 선택한다. : <u>client-local</u>
+  - 임의 노드 선택 : <u>random</u><br><br>
 - **"node"정책 및 마스터 마이그레이션(“nodes” Policy and Migrating Masters)**<br>
 &nbsp;“nodes” 정책을 설정하거나 수정하면 기존 마스터가 새 정책에 나열되지 않은 경우 없어질 수 있다. 메시지 손실을 막기 위해 RabbitMQ는 적어도 하나의 다른 미러가 동기화될 때까지(오랜 시간이더라도) 기존 마스터를 계속 유지합니다. 그러나 일단 동기화가 발생하면 노드가 실패한 것처럼 처리가 진행됩니다. 즉, consumer는 마스터와의 연결이 끊어지고 다시 연결해야 합니다.<br><br>
 - **독점 큐 미러링(Mirroring of Exclusive Queues)**<br>
@@ -490,8 +490,8 @@ mory_high_watermark_paging_ratio 구성을 기본값인 0.5에서 수정해야 �
 # Access Control(Authentication, Authorisation, Access Control)
 - **기본 가상 호스트 및 사용자**<br>
 &nbsp;서버가 처음 실행을 시작하고 해당 데이터베이스가 초기화되지 않았거나 삭제된 것을 감지했을 때 다음과 같은 자원(resources)으로 새 데이터베이스를 초기화한다.<br>
- - 가상 호스트 이름 <u>/</u>
- - <u>guest</u>의 기본 비밀번호를 가진 <u>guest</u>라는 사용자, <u>/</u> 가상호스트에 대한 전체 액세스 권한이 부여된다.<br><br>
+  - 가상 호스트 이름 <u>/</u>
+  - <u>guest</u>의 기본 비밀번호를 가진 <u>guest</u>라는 사용자, <u>/</u> 가상호스트에 대한 전체 액세스 권한이 부여된다.<br><br>
 - **"guest"라는 사용자는 localhost를 통해서만 연결할 수 있다.**<br>
 &nbsp;기본적으로 guest 사용자는 원격 호스트에서 연결할 수 없다. loopback 인터페이스(즉, localhost)를 통해서만 연결할 수 있다. 이것은 AMQP 0-9-1 및 플러그인을 통해 활성화된 다른 모든 프로토콜에 모두 적용된다.<br>
 &nbsp;프로덕션 시스템에서 이 문제를 해결하는 데 권장되는 방법은 필요한 가상 호스트에 액세스할 수 있는 권한을 가진 새로운 사용자 또는 사용자 집합을 만드는 것이다. 이는 CLI 도구, HTTP API 또는 definitions import(정의 가져오기)를 사용하여 수행할 수 있다.<br>
@@ -511,11 +511,11 @@ mory_high_watermark_paging_ratio 구성을 기본값인 0.5에서 수정해야 �
 - **백엔드 결합(Combining Backends)**<br>
 &nbsp;<u>auth_backends</u> 구성 키를 사용하여 <u>authn</u> 또는 <u>authz</u>에 다중 백엔드를 사용할 수 있다. 여러 개의 인증 백엔드를 사용할 경우 체인의 백엔드에 의해 반환되는 첫 번째 긍정적인 결과는 최종 결과로 간주된다.<br>
 &nbsp;<u>rabbit_auth_backend_internal</u>의 <u>internal</u> 별칭을 사용한다. 별칭은 다음과 같은 별칭을 사용할 수 있다.<br>
- - <u>internal</u> for <u>rabbit_auth_backend_internal</u>
- - <u>ldap</u> for <u>rabbit_auth_backend_ldap</u>
- - <u>http</u> for <u>rabbit_auth_backend_http</u>
- - <u>amqp</u> for <u>rabbit_auth_backend_amqp</u>
- - <u>dummy</u> for <u>rabbit_auth_backend_dummy</u><br><br>
+  - <u>internal</u> for <u>rabbit_auth_backend_internal</u>
+  - <u>ldap</u> for <u>rabbit_auth_backend_ldap</u>
+  - <u>http</u> for <u>rabbit_auth_backend_http</u>
+  - <u>amqp</u> for <u>rabbit_auth_backend_amqp</u>
+  - <u>dummy</u> for <u>rabbit_auth_backend_dummy</u><br><br>
 
  &nbsp;인증과 권한 부여를 위해 LDAP 백엔드를 사용하도록 RabbitMQ를 구성한 것이다. 내부 데이터베이스는 참조하지 않는다.<br>
 
@@ -525,10 +525,10 @@ mory_high_watermark_paging_ratio 구성을 기본값인 0.5에서 수정해야 �
 &nbsp;RabbitMQ는 다양한 SASL 인증 메커니즘을 지원한다. 서버에는 <u>PLAIN</u>, <u>AMQPLAIN</u> 및 <u>RABBIT-CR-DEMO</u>의 세 가지 메커니즘이 내장되어 있으며, 플러그인에서 <u>rabbit_auth_mechanism</u> 동작을 구현하여 고유한 인증 메커니즘을 구현할 수도 있다.<br>
 - **내장 매커니즘(Built-in Mechanisms)**<br>
 &nbsp;내장 매커니즘은 다음과 같다.<br>
- - <u>PLAIN</u> : SASL PLAIN 인증. RabbitMQ 서버 및 클라이언트에서 기본적으로 활성화되며 대부분의 다른 클라이언트의 기본값이다.<br>
- - <u>AMQPLAIN</u> : PLAIN의 비표준 버전은 이전 버전과의 호환성을 유지한다. RabbitMQ 서버에서 기본적으로 활성화된다.<br>
- - <u>EXTERNAL</u> : 인증은 x509 인증서 피어 확인, 클라이언트 IP 주소 범위 등과 같은 대역 외 매커니즘을 사용하여 수행된다. 이러한 매커니즘은 일반적으로 RabbitMQ 플러그인에 의해 제공된다.<br>
- - <u>RABBIT-CR-DEMO</u> : challenge-response 인증을 나타내는 비표준 메커니즘. 이 메커니즘은 <u>PLAIN</u>과 동등한 보안 기능을 제공하며 RabbitMQ 서버에서 기본적으로 활성화 되지 않는다.<br><br>
+  - <u>PLAIN</u> : SASL PLAIN 인증. RabbitMQ 서버 및 클라이언트에서 기본적으로 활성화되며 대부분의 다른 클라이언트의 기본값이다.<br>
+  - <u>AMQPLAIN</u> : PLAIN의 비표준 버전은 이전 버전과의 호환성을 유지한다. RabbitMQ 서버에서 기본적으로 활성화된다.<br>
+  - <u>EXTERNAL</u> : 인증은 x509 인증서 피어 확인, 클라이언트 IP 주소 범위 등과 같은 대역 외 매커니즘을 사용하여 수행된다. 이러한 매커니즘은 일반적으로 RabbitMQ 플러그인에 의해 제공된다.<br>
+  - <u>RABBIT-CR-DEMO</u> : challenge-response 인증을 나타내는 비표준 메커니즘. 이 메커니즘은 <u>PLAIN</u>과 동등한 보안 기능을 제공하며 RabbitMQ 서버에서 기본적으로 활성화 되지 않는다.<br><br>
 - **서버 매커니즘 구성(Mechanism Configuration in the Server)**<br>
 &nbsp;<u>rabbit</u> 응용 프로그램의 구성 변수 <u>auth_mechanisms</u>는 클라이언트를 연결하는 데 설치된 메커니즘을 결정한다. 이 변수는 기본적으로 ['PLAIN', 'AMQPLAIN']과 같이 메커니즘 이름에 해당하는 원자 목록이어야 한다. 서버 측 목록은 특정 순서로 간주되지 않는다.<br><br>
 - **클라이언트 매커니즘 구성(Mechanism Configuration in the Client)**<br>
@@ -554,16 +554,16 @@ mory_high_watermark_paging_ratio 구성을 기본값인 0.5에서 수정해야 �
 &nbsp;그리고 지연 큐들은 메시지를 가능한 빨리 디스크로 옮기려고 시도한다. 이는 대부분의 경우 정상 작동 시 RAM에 보관되는 메시지 수가 상당히 적다는 것을 의미한다. 이는 디스크 I/O 증가시키는 비용에서 발생한다.<br>
 - **지연 큐 만들기(Making a Queue Lazy)**<br>
 &nbsp;큐는 <u>default</u> 모드 도는 <u>lazy</u> 모드로 실행되도록 만들 수 있다.<br>
- - <u>queue.declare</u> 인수를 통해 모드 설정
- - 큐 정책 사용<br>
+  - <u>queue.declare</u> 인수를 통해 모드 설정
+  - 큐 정책 사용<br>
 
  &nbsp;policy 및 queue 인수가 모두 큐 모드를 지정하면 queue 인수는 policy 값보다 우선순위를 갖는다.<br>
 - **선언시 인수 사용(Using Arguments at the Time of Declaration)**<br>
 &nbsp;큐 모드는 <u>x-queue-mode</u> 큐 선언 인수에 원하는 모드를 지정하는 문자열을 제공하여 설정할 수 있다.<br>
 &nbsp;유효한 모드는
 
- - <u>"default"</u>
- - <u>"lazy"</u><br>
+  - <u>"default"</u>
+  - <u>"lazy"</u><br>
 
 &nbsp;선언하는 동안 모드를 지정하지 않으면 “default”로 간주된다.<br>
 &nbsp;이 예는 큐 모드가 “lazy”로 설정된 큐를 선언하는 예이다.<br>
@@ -581,7 +581,7 @@ mory_high_watermark_paging_ratio 구성을 기본값인 0.5에서 수정해야 �
 |---|---|
 |**rabbitmqctl(Windows)**|**rabbitmqctl set_policy Lazy "^lazy-queue$" "{""queue-mode"":""default""}" --apply-to queues**|
 - **지연 큐의 성능 고려 사항(Performance Considerations for Lazy Queues)**<br>
- - 디스크 사용률<br>
+  - 디스크 사용률<br>
  &nbsp;지연 큐는 producer가 메시지를 일시적으로 게시한 경우에도 가능한 한 빨리 메시지를 디스크로 이동시킬 것이다. 그러면 일반적으로 I/O 사용률이 높아진다.<br>
  &nbsp;일반적인(regular) 큐는 메시지를 더 오랫동안 메모리에 보관한다. 이로 인해 더 많은 데이터를 디스크에 한 번에 기록해야 하기 때문에 디스크 I/O가 지연되는 결과를 초래한다.<br><br>
 - **RAM 사용률(RAM Utilization)**<br>
