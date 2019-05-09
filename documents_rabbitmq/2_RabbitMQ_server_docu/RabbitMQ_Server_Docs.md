@@ -28,11 +28,15 @@ TLS 연결을 지원하기 위해 RabbitMQ가 Erlang/OTP 설치에서 TLS 및 �
 
    다음은 하나의 루트 CA와 하나의 leaf(서버 또는 클라이언트)인증서가 있는 가장 기본적인 체인의 예이다.
    
+   ![image01](images/image01.png)
+
+   중간 인증서가 있는 체인은 다음과 같다.
+   
+   ![image02](images/image02.png)
+   
    TLS 지원 RabbitMQ 노드는 파일(CA 번들), 인증서(공개키) 파일 및 개인키 파일에서 신뢰할 수 있다고 간주되는 인증기관 인증서 집합을 가지고 있어야 한다. 파일들은 로컬 파일 시스템으로부터 읽을 수 있으며 RabbitMQ 노드 프로세스의 권한이 있는 사용자가 읽을 수 있어야 한다.
-
-   	
-
-
+   
+   ​	
 
 - **CA, 인증서 및 키를 생성한는 짧은 경로(The Short Route to Generating a CA, Certificates, and Keys)**
 
@@ -46,7 +50,11 @@ TLS 연결을 지원하기 위해 RabbitMQ가 Erlang/OTP 설치에서 TLS 및 �
 
    다음은 CA를 생성하고 이를 사용하여 두 개의 인증서/키 쌍을 생성하는 예제이다. 하나는 서버용이고 다른 하나는 클라이언트용이다. 
 
+   ![image03](images/image03.png)
+   
    기본 tls-gen profile로 생성된 인증서 체인은 다음과 같다.
+   
+   ![image04](images/image04.png)
 
 
 
@@ -76,12 +84,16 @@ TLS 연결을 지원하기 위해 RabbitMQ가 Erlang/OTP 설치에서 TLS 및 �
 - **TLS가 활성화되어 있는지 확인하는 방법(How to Verify that TLS is Enabled)**
 
   노드에서 TLS가 활성화되어 있는지 확인하기 위해서는 노드를 다시 시작하고 로그 파일을 검사해야 한다. 다음과 같이 활성화된 TLS Listener에 대한 항목을 포함해야 한다.
+  
+  ![image05](images/image05.png)
 
 
 
 - **개인키 비밀번호 제공(Providing Private Key Password)**
 
   개인키는 선택적으로 암호로 보호할 수 있다. 암호를 제공하기 위해서는 password 옵션을 사용한다.
+  
+  ![image06](images/image06.png)
 
 
 
@@ -95,11 +107,19 @@ TLS 연결을 지원하기 위해 RabbitMQ가 Erlang/OTP 설치에서 TLS 및 �
 
   다음은 하나의 루트 CA와 하나의 리프(서버 또는 클라이언트) 인증서가 있는 가장 기본적인 체인의 예이다.
 
+  ![image07](images/image07.png)
+
   중간 인증서가 있는 체인은 다음과 같다.
 
+  ![image08](images/image08.png)
+  
   피어 검증(확인) 중에 TLS 연결 클라이언트(또는 서버)는 피어가 제공하는 인증서의 체인을 통과하고 신뢰할 수 있는 인증서가 발견되었을 경우, 해당 피어를 신뢰할 수 있는 것으로 간주한다. 신뢰할 수 있는 유효한 인증서가 없으면 피어 검증에 실패하고 “Unknown CA” 또는 이와 유사한 오류(OpenSSL parlance의 “alert”)로 클라이언트 연결이 닫힌다. 경고 메시지는 서버에서 다음과 유사한 메시지와 함께 기록된다.
-
+  
+  ![image09](images/image09.png)
+  
   모든 단계에서 인증 유효성도 검사된다. 만료되었거나 아직 유효하지 않은 인증서는 거부된다. 이 경우 TLS 경고는 다음과 같이 나타난다.
+  
+  ![image10](images/image10.png)
 
 
 
@@ -113,6 +133,8 @@ TLS 연결을 지원하기 위해 RabbitMQ가 Erlang/OTP 설치에서 TLS 및 �
   서버 및 클라이언트에서 사용하는 것과 같은 최종(“leaf”) 인증서를 신뢰할 수 있는 인증서 디렉토리에 배치하는 것이 가능하지만 훨씬 더 일반적인 방법은 CA 인증서를 신뢰할 수 있는 인증서 목록에 추가하는 것이다.
 
   여러 인증서를 서로 추가하고 단일 인증기관 번들 파일에서 사용하는 가장 일반적인 방법은 단순히 인증서를 연결하는 것이다.
+  
+  ![image11](images/image11.png)
 
 
 
@@ -122,6 +144,8 @@ TLS 연결을 지원하기 위해 RabbitMQ가 Erlang/OTP 설치에서 TLS 및 �
 
   예를 들어 다음 구성은 피어 검증을 수행하고 인증서를 제공하지 않는 클라이언트를 거부한다.
 
+  ![image12](images/image12.png)
+
   피어 검증이 클라이언트 라이브러리에서 정확히 구성되는 방법은 라이브러리마다 다르다. Java 및 .NET 클라이언트 섹션에서는 해당 클라이언트의 피어 검증을 다룬다. Production 환경에서의 피어 확인을 적극 권장하며, 특정 환경에서는 이를 사용하지 않도록 설정할 수 있다.
 
   따라서 인증서를 확인하지 않고도 암호화된 TLS 연결을 만들 수 있다. 클라이언트 라이브러리는 일반적으로 두 가지 작동 모드를 모두 지원한다.
@@ -129,7 +153,7 @@ TLS 연결을 지원하기 위해 RabbitMQ가 Erlang/OTP 설치에서 TLS 및 �
   피어 확인이 사용가능하게 되면 클라이언트가 연결하려는 서버의 호스트 이름이 SAN(Subject Alternative Name) 또는 CN(Common Name)과 같이 서버 인증서의 두 필드 중 하나와 일치하는지 여부도 확인하는 것이 일반적이다. 일치하지 않는 경우, 피어 확인도 클라이언트에 의해 실패한다.
 
   이 때문에 인증서를 생성할 때 사용된 SAN 또는 CN 값을 파악하는 것이 중요하다. 인증서가 한 호스트에서 생성되어 다른 호스트에서 사용되는 경우 $(hostname) 값을 대상 서버의 올바른 호스트 이름으로 바꿔야한다.
-
+  
   tls-gen은 두 값에 대해 로컬 시스템의 호스트 이름을 사용한다. 마찬가지로 수동 인증서/키 쌍 생성 섹션에서 로컬 시스템의 호스트 이름은 일부 OpenSSL CLI 도구 명령에 대해 <u>...-subj /CN=$(hostname)/...</u>로 지정된다.
 
 
@@ -139,6 +163,8 @@ TLS 연결을 지원하기 위해 RabbitMQ가 Erlang/OTP 설치에서 TLS 및 �
   중간 CA가 서명한 클라이언트 인증서를 사용할 경우 더 높은 검증 깊이를 사용하도록  RabbitMQ 서버를 구성해야한다. 깊이는 유효한 인증서 경로에서 피어 인증서를 따를 수 있는 자체 발행되지 않은 중간 인증서의 최대 수를 말한다. 따라서 깊이가 0인 경우 피어(예 : 클라이언트) 인증서는 신뢰할 수 있는 CA에 의해 직접 서명되어야 한다.
 
   다음은 RabbitMQ 서버의 인증서 검증 깊이를 구성하는 방법을 보여주는 예이다.
+  
+  ![image13](images/image13.png)
 
 
 
@@ -170,13 +196,19 @@ TLS 연결을 지원하기 위해 RabbitMQ가 Erlang/OTP 설치에서 TLS 및 �
 
   이렇게 하면 클라이언트가 연결중인 호스트 이름에 대해 서버 인증서가 발급되었는지 확인할 수 있다. 인증서 체인 확인과 달리 이 기능은 클라이언트별로 제공된다.
 
-   JDK 6의 경우, 호스트명 검증을 위해 Apache Commons HttpClient에 대한 의존성을 추가해야한다. 또는 JDK 6 <u>ConnectionFactory#enableHostnameVerification(HostnameVerifier)</u>에서 <u>HostnameVerifier</u> 인스턴스를 선택할 수 있다.
+   JDK 6의 경우, 호스트명 검증을 위해 Apache Commons HttpClient에 대한 의존성을 추가해야한다. 
+  
+  ![image14](images/image14.png)
+  
+  또는 JDK 6 <u>ConnectionFactory#enableHostnameVerification(HostnameVerifier)</u>에서 <u>HostnameVerifier</u> 인스턴스를 선택할 수 있다.
 
 
 
 - **Java 클라이언트에서 TLS 버전 구성(Configuring TLS Version in Java client)**
 
   RabbitMQ 서버가 특정 TLS 버전만 지원하도록 구성할 수 있다. 그렇기 때문에 Java 클라이언트에서 기본 설정 TLS 버전을 구성해야 할 수도 있다. 이 작업은 프로토콜 버전 이름 또는 <u>SSLContext</u>를 허용하는 <u>ConnectionFactory#useSslProtocol</u> 오버로드를 사용하여 수행된다.
+  
+  ![image15](images/image15.png)
 
 
 
@@ -198,11 +230,27 @@ TLS 연결을 지원하기 위해 RabbitMQ가 Erlang/OTP 설치에서 TLS 및 �
 
   사용자 <u>Root</u>(일부 .NET 구현에서는 <u>Trust</u>라고도 한다.)의 저장소에 인증서를 추가하는 예이다.
 
+  ![image16](images/image16.png)
+
+  ![image17](images/image17.png)
+
   대신 시스템 전체(컴퓨터) 인증서 저장소에 인증서를 추가하려면
-
+  
+  ![image18](images/image18.png)
+  
+  ![image19](images/image19.png)
+  
   저장소에 추가한 후 –all 스위치를 사용하여 해당 저장소의 내용을 볼 수 있다.
-
+  
+  ![image20](images/image20.png)
+  
+  ![image21](images/image21.png)
+  
   저장된 인증서를 삭제하기 위해서는
+  
+  ![image22](images/image22.png)
+  
+  ![image23](images/image23.png)
 
 
 
@@ -247,10 +295,18 @@ TLS 연결을 지원하기 위해 RabbitMQ가 Erlang/OTP 설치에서 TLS 및 �
 
 - **사용 가능한 TLS 버전 확인(Verifying Enabled TLS Versions)**
 
-  제공된 TLS 버전을 확인하려면 <u>openssl s_client</u>를 사용하면 된다.
-
-
-
+  제공된 TLS 버전을 확인하려면 openssl s_client를 사용하면 된다.
+  
+  ![image24](images/image24.png)
+  
+  ![image25](images/image25.png)
+  
+  버전 확인 결과
+  
+  ![image26](images/image26.png)
+  
+  
+  
 - **JDK 및 .NET용 TLS 버전 지원 표(TLS Version Support Table for JDK and .NET)**
 
   TLSv1.0을 비활성화하면 지원되는 클라이언트 플랫폼 수가 제한된다.
@@ -269,6 +325,8 @@ TLS 연결을 지원하기 위해 RabbitMQ가 Erlang/OTP 설치에서 TLS 및 �
 
   실행 중인 노드의 Erlang 런타임에서 지원하는 암호 모음을 나열하려면 <u>rabbitmq-diagnost ics cipher_suites --openssl-format</u>을 사용해야 한다.
 
+  ![image27](images/image27.png)
+  
   이렇게 하면 OpenSSL 형식의 암호 그룹 목록이 생성된다.
 
 
@@ -281,7 +339,9 @@ TLS 연결을 지원하기 위해 RabbitMQ가 Erlang/OTP 설치에서 TLS 및 �
 
 - **Cipher Suite Order**
 
-  TLS 연결 협상 중에 서버와 클라이언트는 어떤 암호 스위트를 사용할 것인지를 협상한다. 서버의 TLS 구현이 선호도(암호 스위트 순서)를 지시하도록 하여 취약한 클라이언트가 의도적으로 약한 암호군을 공격하여 공격을 준비하는 것을 방지할 수 있다. 이를 위해서는 honor_cipher_order 및 honor_ecc_order를 true로 설정하면 된다.
+  TLS 연결 협상 중에 서버와 클라이언트는 어떤 암호 스위트를 사용할 것인지를 협상한다. 서버의 TLS 구현이 우선순위(암호 스위트 순서)를 지시하도록 하여 취약한 클라이언트가 의도적으로 약한 암호군을 공격하여 공격을 준비하는 것을 방지할 수 있다. 이를 위해서는 honor_cipher_order 및 honor_ecc_order를 true로 설정하면 된다.
+  
+  ![image28](images/image28.png)
 
 
 
@@ -331,8 +391,14 @@ RabbitMQ Erlang 클라이언트에서 TLS를 활성화하는 것은 네트워킹
 
 - **CA, 인증서 및 개인키 수동 생성(Manually Generating a CA, Certificates and Private Keys)**
   1. 먼저 테스트 인증기관을 위한 디렉토리를 만든다.
+  
+     ![image29](images/image29.png)
+  
   2. 테스트 인증기관이 사용할 키와 인증서를 생성한다.
+  
   3. 테스트 인증기관이 사용할 키와 인증서를 생성한다.
+  
+     ![image30](images/image30.png)
 
 
 
@@ -788,16 +854,22 @@ RabbitMQ 서버는 시작할 때 컴퓨터에 설치된 총 RAM의 양을 감지
 
   흐름 제어가 발생되는 메모리 임계값은 구성 파일을 편집하여 조절할 수 있다. 다음 예에는 임계값을 기본 값 0.4로 설정하는 예이다.
 
+  ![image31](images/image31.png)
+
   기본값 0.4는 설치된 RAM의 40% 또는 사용 가능한 가상 주소 공간의 40% 중 작은 값을 의미한다. 예를 들어 32bit 플랫폼에서 4GB의 RAM을 설치한 경우 4GB의 40%는 1.6GB이지만 32bit Windows는 일반적으로 프로세스를 2GB로 제한하므로 임계값은 실제로 2GB의 40%(820MB)이다.
 
   또는 메모리 임계값은 노드에서 사용하는 RAM의 절대적인 제한을 설정하여 조절될 수 있다. 다음 예는 임계값을 1073741824바이트(1024MB)로 설정한다.
 
+  ![image32](images/image32.png)
+
   절대적인 한계가 설치된 RAM 또는 사용 가능한 가상 주소 공간보다 큰 경우 임계값은 더 작은 쪽으로 설정된다.
 
   메모리 제한은 RabbitMQ 서버가 시작될 때 RABBITMQ_NODENAME.log 파일에 추가된다.
-
+  
+  ![image33](images/image33.png)
+  
   메모리 제한은 <u>rabbitmqctl status</u> 명령을 사용하여 쿼리할 수도 있다.
-
+  
   임계값은 브로커가 rabbitmqctl set_vm_memory_high_watermark fraction</u> 명령 또는 rabbitmqctl set_vm_memory_high_watermark absolute memory_limit</u> 명령을 사용하여 실행되는 동안 변경될 수 있다. 이 명령은 브로커가 멈출 때까지 적용된다. 효과가 브로커가 재시작시에도 지속되어야 할 때도 해당되는 구성 설정을 변경해야 한다. 메모리 제한은 RAM 시스템의 총량이 쿼리되기 때문에 이 명령을 임계값을 변경하지 않고 실행될 때 hoy-swappable RAM이 있는 시스템에서 변경할 수 있다.
 
 
@@ -812,6 +884,8 @@ RabbitMQ 서버는 시작할 때 컴퓨터에 설치된 총 RAM의 양을 감지
 
   64bit OS(또는 PAE가 있는 32bit OS)의 32bit Erlang VM에서 RabbitMQ를 실행하면 주소 지정이 가능한 메모리가 제한된다. 서버가 이를 감지하고 다음과 같은 메시지를 기록한다.
 
+  ![image34](images/image34.png)
+  
   메모리 알림 시스템은 완벽하지 않다. 게시를 중지하면 대개 더 이상의 메모리가 사용되는 것을 막을 수 있지만 다른 것들이 계속해서 메모리 사용을 증가시킬 수 있다. 일반적으로 이런 일이 일어나고 물리적인 메모리가 고갈되면 OS는 swap을 시작한다. 그러나 제한된 주소 공간을 사용하여 실행하면 제한을 초과하여 실행하면 VM이 충돌할 수 있다. 따라서 64bit OS에서 실행할 때는 64bit Erlang VM을 사용하는 것이 좋다.
 
 
@@ -822,8 +896,10 @@ RabbitMQ 서버는 시작할 때 컴퓨터에 설치된 총 RAM의 양을 감지
 
   기본적으로 이는 브로커가 high watermark에 이르는 경로의 50%일 때 발생한다(즉, 기본 high watermark는 0.4이며, 메모리의 20%가 사용되었을 때). 이 값을 변경하려면 vm_memory_high_watermark_paging_ratio 구성을 기본값인 0.5에서 수정해야 한다.
 
-  위의 구성은 사용된 메모리의 30%에서 페이징을 시작하고 게시자(publisher)를 40%에서 차단한다.
+  ![image35](images/image35.png)
 
+  위의 구성은 사용된 메모리의 30%에서 페이징을 시작하고 게시자(publisher)를 40%에서 차단한다.
+  
   vm_memory_high_watermark_paging_ratio를 1.0보다 큰 값으로 설정할 수도 있다. 이 경우 큐는 디스트에 내용을 페이징하지 않는다. 이 때문에 메모리 알림이 울리게 하면 producer가 차단된다.
 
 
@@ -832,6 +908,8 @@ RabbitMQ 서버는 시작할 때 컴퓨터에 설치된 총 RAM의 양을 감지
 
   RabbitMQ 서버가 시스템을 인식 할 수 없는 경우 RABBITMQ_NODENAME.log 파일에 경고를 추가한다. 그런 다음 1GB이상의 RAM이 설치되어 있다고 가정한다.
 
+  ![image36](images/image36.png)
+  
   이 경우, vm_memory_high_watermark 구성 값은 가정된 1GB RAM의 크기를 조정하는 데 사용된다. vm_memory_high_watermark의 기본 값을 0.4로 설정하면 RabbitMQ의 메모리 임계값이 410MB로 설정되므로 RabbitMQ가 410MB 이상의 메모리를 사용할 때마다 producer를 조절한다. 따라서 RabbitMQ가 플랫폼을 인식하지 못하는 경우 실제로 8GB RAM이 설치되어 있고 서버가 3GB를 초과하여 사용할 때 RabbitMQ가 producer를 제한하게하려면 vm_memory_high_watermark를 3으로 설정해야한다.
 
 
@@ -870,11 +948,15 @@ RabbitMQ는 connnections, exchanges, queues, binding, 사용자 권한, 정책�
 
     다음은 qa1이라는 가상 호스트를 만드는 예이다.
 
+    ![image37](images/image37.png)
+
   - HTTP API 사용
 
-    가상 호스트는 PUT /api/vhosts/{name} HTTP API endpoint(엔드 포인트)를 사용하여 생성될 수 있다. {name}은 가상 호스트의 이름을 말한다.
-
+    가상 호스트는 <u>PUT /api/vhosts/{name}</u> HTTP API endpoint(엔드 포인트)를 사용하여 생성될 수 있다. {name}은 가상 호스트의 이름을 말한다.
+  
     다음은 curl을 사용하여 rabbitmq.local:15672의 노드에 연결하여 가상 호스트 vh1을 생성하는 예이다.
+    
+    ![image38](images/image38.png)
 
 
 
@@ -888,11 +970,16 @@ RabbitMQ는 connnections, exchanges, queues, binding, 사용자 권한, 정책�
 
     다음은 qa1이라는 가상 호스트를 삭제하는 예이다.
 
+    ![image39](images/image39.png)
+
   - HTTP API 사용
 
     <u>DELETE/api/vhosts/{name}</u> HTTP API 엔드 포인트를 사용하여 가상 호스트를 삭제할 수 있다. 여기서 {name}은 가상 호스트의 이름이다.
-
-  다음은 curl을 사용하여 rabbitmq.local:15672의 노드에 연결하여 가상 호스트 vh1을 삭제하는 예입니다.
+    
+    다음은 curl을 사용하여 rabbitmq.local:15672의 노드에 연결하여 가상 호스트 vh1을 삭제하는 예입니다.
+    
+    ![image40](images/image40.png)
+  
 
 
 
@@ -926,9 +1013,15 @@ RabbitMQ는 connnections, exchanges, queues, binding, 사용자 권한, 정책�
 
   vhost_name에서 동시 클라이언트 연결의 총 수를 제한하려면 다음과 같이 하면 된다.
 
-  가상 호스트에 대한 클라이언트 연결을 비활성화하려면 제한을 0으로 설정하면 된다.
+  ![image41](images/image41.png)
 
+  가상 호스트에 대한 클라이언트 연결을 비활성화하려면 제한을 0으로 설정하면 된다.
+  
+  ![image42](images/image42.png)
+  
   한계를 높이려면 음수 값으로 설정하면 된다.
+  
+  ![image43](images/image43.png)
 
 
 
@@ -936,7 +1029,11 @@ RabbitMQ는 connnections, exchanges, queues, binding, 사용자 권한, 정책�
 
   vhost_name의 전체 큐의 수를 제한하려면 다음과 같이 하면 된다.
 
+  ![image44](images/image44.png)
+  
   한계를 높이려면 음수 값으로 설정하면 된다.
+  
+  ![image45](images/image45.png)
 
 
 
@@ -972,12 +1069,20 @@ RabbitMQ는 connnections, exchanges, queues, binding, 사용자 권한, 정책�
 
   큐의 마스터 노드와 해당 온라인 미러가 큐 페이지에 나열된다.
 
+  ![image46](images/image46.png)
+
   큐 페이지에 미러가 나열되지 않으면 큐가 미러링되지 않은 것이다.
 
+  ![image47](images/image47.png)
+
   새 큐 미러가 추가하면 이벤트가 기록된다.
-
+  
+  ![image48](images/image48.png)
+  
   rabbitmqctl list_queues를 사용하여 큐 마스터 및 미러를 나열할 수 있다.
-
+  
+  ![image49](images/image49.png)
+  
   미러링 할 것으로 예상되는 큐가 아닌 경우, 이는 대개 큐의 이름이 미러링을 제어하는 정책에서 지정된 이름과 일치하지 않거나 다른 정책이 우선순위를 가짐을 의미한다.
 
 
@@ -1013,6 +1118,8 @@ RabbitMQ는 connnections, exchanges, queues, binding, 사용자 권한, 정책�
   큐의 마스터 노드(큐 마스터를 실행하는 노드)가 사용 가능한 경우, 모든 큐 작업(예 : 선언, 바인딩 및 소비자 관리, 큐에 메시지 라우팅)은 어느 노드에서 수행될 수 있다. 클러스터 노드는 마스터 노드로 작업을 클라이언트로 명백하게(transparently) 라우팅한다.
 
   큐의 마스터 노드를 사용할 수 없게 되면 미러링되지 않은 큐의 동작은 내구성(durable)에 따라 달라진다. 내구성 큐는 노드가 돌아올 때까지 사용할 수 없게 된다. 사용할 수 없는 마스터 노드가 있는 내구성 큐의 모든 작업은 다음과 같은 서버 로그의 메시지와 함께 실패한다.
+  
+  ![image50](images/image50.png)
 
 
 
@@ -1054,10 +1161,16 @@ RabbitMQ는 connnections, exchanges, queues, binding, 사용자 권한, 정책�
 
   미러 상태(동기화 여부) 확인
 
+  ![image51](images/image51.png)
+
   수동으로 큐 동기화
 
+  ![image52](images/image52.png)
+  
   또는 진행중인 동기화 취소
-
+  
+  ![image53](images/image53.png)
+  
   이 기능은 관리 플러그인을 통해서도 사용할 수 있다.
 
 
@@ -1086,6 +1199,8 @@ RabbitMQ는 connnections, exchanges, queues, binding, 사용자 권한, 정책�
   프로덕션 시스템에서 이 문제를 해결하는 데 권장되는 방법은 필요한 가상 호스트에 액세스할 수 있는 권한을 가진 새로운 사용자 또는 사용자 집합을 만드는 것이다. 이는 CLI 도구, HTTP API 또는 definitions import(정의 가져오기)를 사용하여 수행할 수 있다.
 
   이것은 configuration files의 loopback_users 항목을 통해 구성된다. <u>guest</u> 사용자가 원격 호스트에서 연결할 수 있게 하려면 loopback_users 구성을 <u>none</u>으로 설정해야 한다. 
+  
+  ![image54](images/image54.png)
 
 
 
@@ -1123,17 +1238,23 @@ RabbitMQ는 connnections, exchanges, queues, binding, 사용자 권한, 정책�
 
   auth_backends 구성 키를 사용하여 <u>authn</u> 또는 <u>authz</u>에 다중 백엔드를 사용할 수 있다. 여러 개의 인증 백엔드를 사용할 경우 체인의 백엔드에 의해 반환되는 첫 번째 긍정적인 결과는 최종 결과로 간주된다.
 
-  rabbit_auth_backend_internal의 internal 별칭을 사용한다. 별칭은 다음과 같은 별칭을 사용할 수 있다.
+  ![image55](images/image55.png)
 
+  rabbit_auth_backend_internal의 internal 별칭을 사용한다. 별칭은 다음과 같은 별칭을 사용할 수 있다.
+  
   - <u>internal</u> for rabbit_auth_backend_internal
   - <u>ldap</u> for rabbit_auth_backend_ldap
   - <u>http</u> for rabbit_auth_backend_http
-  - <u>amqp</u> for rabbit_auth_backend_amqp
+- <u>amqp</u> for rabbit_auth_backend_amqp
   - <u>dummy</u> for rabbit_auth_backend_dummy
 
   인증과 권한 부여를 위해 LDAP 백엔드를 사용하도록 RabbitMQ를 구성한 것이다. 내부 데이터베이스는 참조하지 않는다.
-
+  
+  ![image56](images/image56.png)
+  
   이렇게 하면 LDAP를 먼저 확인한 다음 LDAP를 통해 사용자를 인증할 수 없는 경우 내부 데이터베이스로 다시 넘어간다.
+  
+  ![image57](images/image57.png)
 
 
 
@@ -1227,6 +1348,8 @@ RabbitMQ 3.6.0부터 브로커는 Lazy Queues 개념을 사용한다. 지연 큐
   선언하는 동안 모드를 지정하지 않으면 “default”로 간주된다.
 
   이 예는 큐 모드가 “lazy”로 설정된 큐를 선언하는 예이다.
+  
+  ![image58](images/image58.png)
 
 
 
