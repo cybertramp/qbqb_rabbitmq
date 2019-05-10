@@ -1,5 +1,5 @@
 # RabbitMQ
-![qbqb_logo](6_Backup/logos/qbqb_logo.png)
+![qbqb_logo](https://github.com/cybertramp/qbqb_rabbitmq/blob/master/7_Backup/logos/qbqb_logo.png)
 
 This team project is RabbitMQ vulnerability analysis project.
 
