@@ -26,7 +26,10 @@ RabbitMQ에 취약점 분석 기법을 적용해본 프로젝트입니다.
   "Y888888"  8888888P"   "Y888888"  8888888P"  
         Y8b                    Y8b             
 ```
-
+- Logs
+    - 190608 Pivotal do not want open exploit tool.
+    (If you want exploit tool, contact me.)
+    
 - Purpose
     - Study RabbitMQ message broker 
     - Study vulnerability  analysis technique
